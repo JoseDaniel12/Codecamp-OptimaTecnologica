@@ -1,22 +1,30 @@
 USE "db-codecamp-optimatecnologica";
 
--- Consulta A:
-CREATE VIEW ConsultaA AS
-SELECT
-    COUNT(*) AS totalProductosActiovs
-FROM Productos
-WHERE stock > 0;
+GO
 
+-- Consulta A:
+CREATE OR ALTER VIEW ConsultaA AS
+SELECT
+    COUNT(*) AS totalProductosActivosConStock
+FROM Productos
+WHERE  (
+    (SELECT estados.idestados FROM estados WHERE nombre = 'Activo') = Productos.estados_idestados AND
+    stock > 0
+);
+
+GO
 
 -- Consulta B:
-CREATE VIEW ConsultaB AS
+CREATE OR ALTER VIEW ConsultaB AS
 SELECT
-    SUM(total_orden) AS total
+    SUM(total_orden) AS totalQuetzalesAgosto2024
 FROM Orden
 WHERE MONTH(fecha_creacion) = 8 AND YEAR(fecha_creacion) = 2024;
 
+GO
+
 -- Consulta C:
-CREATE VIEW ConsultaC AS
+CREATE OR ALTER VIEW ConsultaC AS
 SELECT
     u.*,
     consumo_usuarios.monto_consumo
@@ -31,9 +39,10 @@ FROM (
 ) AS consumo_usuarios
 INNER JOIN usuarios AS u ON consumo_usuarios.idusuarios = u.idusuarios;
 
+GO
 
 -- Consulta D:
-CREATE VIEW ConsultaD AS
+CREATE OR ALTER VIEW ConsultaD AS
 SELECT
     p.*,
     venta_productos.cant_vendida

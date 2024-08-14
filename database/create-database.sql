@@ -1,10 +1,13 @@
 IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'db-codecamp-optimatecnologica')
 BEGIN
-    CREATE DATABASE "db-codecamp-optimatecnologica";
+    CREATE DATABASE [db-codecamp-optimatecnologica];
 END;
+
+GO
 
 USE [db-codecamp-optimatecnologica];
 
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'estados' AND schema_id = SCHEMA_ID('dbo'))
 BEGIN
