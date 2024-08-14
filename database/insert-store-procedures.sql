@@ -180,6 +180,3 @@ BEGIN
 
     SELECT * FROM OrdenDetalles WHERE idOrdenDetalles = SCOPE_IDENTITY();
 END;
-
-
--- Probar Procedimientos
