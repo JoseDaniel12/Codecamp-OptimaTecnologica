@@ -1,4 +1,9 @@
-USE "db-codecamp-optimatecnologica";
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'db-codecamp-optimatecnologica')
+BEGIN
+    CREATE DATABASE "db-codecamp-optimatecnologica";
+END;
+
+USE [db-codecamp-optimatecnologica];
 
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'estados' AND schema_id = SCHEMA_ID('dbo'))
@@ -30,7 +35,7 @@ BEGIN
         password VARCHAR(45),
         telefono VARCHAR(45),
         fecha_nacimiento DATE,
-        fecha_creacion DATETIME
+        fecha_creacion DATETIME DEFAULT GETDATE(),
 
         FOREIGN KEY (rol_idrol) REFERENCES rol(idrol),
         FOREIGN KEY (estados_idestados) REFERENCES estados(idestados)
@@ -45,7 +50,7 @@ BEGIN
         usuarios_idusuarios INT,
         nombre VARCHAR(45),
         estados_idestados INT,
-        fecha_creacion DATETIME,
+        fecha_creacion DATETIME DEFAULT GETDATE(),
 
         FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios),
         FOREIGN KEY (estados_idestados) REFERENCES estados(idestados)
@@ -59,7 +64,7 @@ BEGIN
         idOrden INT IDENTITY(1,1) PRIMARY KEY,
         usuarios_idusuarios INT,
         estados_idestados INT,
-        fecha_creacion DATETIME,
+        fecha_creacion DATETIME DEFAULT GETDATE(),
         nombre_completo VARCHAR(45),
         direccion VARCHAR(545),
         telefono VARCHAR(45),
@@ -85,7 +90,7 @@ BEGIN
         stock FLOAT,
         estados_idestados INT,
         precio FLOAT,
-        fecha_creacion DATETIME,
+        fecha_creacion DATETIME DEFAULT GETDATE(),
         foto BINARY,
 
         FOREIGN KEY (CategoriaProductos_idCategoriaProductos) REFERENCES CategoriaProductos(idCategoriaProductos),
@@ -101,7 +106,7 @@ BEGIN
         idOrdenDetalles INT IDENTITY(1,1) PRIMARY KEY,
         Orden_idOrden INT,
         Productos_idProductos INT,
-        canitdad INT,
+        cantidad INT,
         precio FLOAT,
         subtotal FLOAT,
 
