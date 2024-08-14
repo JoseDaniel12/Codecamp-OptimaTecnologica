@@ -1,6 +1,18 @@
 DROP DATABASE "db-codecamp-optimatecnologica";
 USE "db-codecamp-optimatecnologica";
 
+SELECT * FROM OrdenDetalles;
+SELECT * FROM Orden;
+
+UPDATE Orden
+SET total_orden = 200
+WHERE idOrden =1;
+
+SELECT * FROM ConsultaA;
+SELECT * FROM ConsultaB;
+SELECT * FROM ConsultaC;
+SELECT * FROM ConsultaD;
+
 -- ESTADOS
 EXECUTE InsertarEstado @nombre = "Activo";
 

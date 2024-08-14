@@ -70,7 +70,7 @@ BEGIN
         telefono VARCHAR(45),
         correo_electronico VARCHAR(45),
         fecha_entrega DATE,
-        total_orden FLOAT,
+        total_orden FLOAT DEFAULT 0,
 
         FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios),
         FOREIGN KEY (estados_idestados) REFERENCES estados(idestados)
@@ -89,7 +89,7 @@ BEGIN
         codigo VARCHAR(45),
         stock FLOAT,
         estados_idestados INT,
-        precio FLOAT,
+        precio FLOAT DEFAULT 0,
         fecha_creacion DATETIME DEFAULT GETDATE(),
         foto BINARY,
 
@@ -107,8 +107,8 @@ BEGIN
         Orden_idOrden INT,
         Productos_idProductos INT,
         cantidad INT,
-        precio FLOAT,
-        subtotal FLOAT,
+        precio FLOAT DEFAULT 0,
+        subtotal FLOAT DEFAULT 0,
 
         FOREIGN KEY (Orden_idOrden) REFERENCES Orden(idOrden),
         FOREIGN KEY (Productos_idProductos) REFERENCES Productos(idProductos)
