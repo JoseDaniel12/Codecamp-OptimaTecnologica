@@ -6,11 +6,9 @@ GO
 CREATE OR ALTER VIEW ConsultaA AS
 SELECT
     COUNT(*) AS totalProductosActivosConStock
-FROM Productos
-WHERE  (
-    (SELECT estados.idestados FROM estados WHERE nombre = 'Activo') = Productos.estados_idestados AND
-    stock > 0
-);
+FROM Productos AS p
+INNER JOIN estados AS e ON p.estados_idestados = e.idestados
+WHERE e.nombre = 'Activo';
 
 GO
 
