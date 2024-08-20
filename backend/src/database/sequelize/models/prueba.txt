@@ -1,0 +1,1 @@
+sequelize-auto -o "./models" -d nombre_base_datos -h servidor_host -u usuario -p puerto -x contraseña -e mssql
