@@ -1,5 +1,4 @@
 require('dotenv').config();
-const sequelize = require('./database/sequelize/sqlServerConf');
 
 // IMPORTS
 const express = require('express');
@@ -23,5 +22,11 @@ app.get('/', async (_, res) => {
     return res.status(200).json({ msg: 'CodeCamp - Optima Tecnologica - José Alvarado.' });
 });
 
+app.use('/estados', require('./routes/estados.routes'));
+app.use('/roles', require('./routes/roles.routes'));
+app.use('/usuarios', require('./routes/usuarios.routes'));
+app.use('/categorias', require('./routes/categorias.routes'));
+app.use('/ordenes', require('./routes/ordenes.routes'));
+app.use('/productos', require('./routes/productos.routes'));
 
 module.exports = app;
