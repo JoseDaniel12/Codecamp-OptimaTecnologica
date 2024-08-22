@@ -72,6 +72,7 @@ const usuariosProcedures = {
                     @fecha_nacimiento = :fecha_nacimiento;
             `;
             const usuario = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
                 replacements: {
                     idusuarios: datos.idusuarios,
                     rol_idrol: datos.rol_idrol,
@@ -93,6 +94,7 @@ const usuariosProcedures = {
         try {
             let query = `EXEC DarBajaUsuario @idusuarios = :idusuarios;`;
             const usuario = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
                 replacements: {
                     idusuarios: idUsuario
                 }

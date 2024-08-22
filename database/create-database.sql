@@ -94,7 +94,7 @@ BEGIN
         estados_idestados INT,
         precio FLOAT DEFAULT 0,
         fecha_creacion DATETIME DEFAULT GETDATE(),
-        foto BINARY,
+        foto VARBINARY(MAX),
 
         FOREIGN KEY (CategoriaProductos_idCategoriaProductos) REFERENCES CategoriaProductos(idCategoriaProductos),
         FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios),

@@ -9,11 +9,9 @@ SELECT * FROM Orden;
 SELECT * FROM Productos;
 SELECT * FROM OrdenDetalles;
 
+ALTER TABLE Productos
+ALTER COLUMN foto VARBINARY(MAX)
 
-SELECT * FROM ConsultaA;
-SELECT * FROM ConsultaB;
-SELECT * FROM ConsultaC;
-SELECT * FROM ConsultaD;
 
 
 -- _______________________________________ PROCEDIMIENTOS DE INSERSCIÓN _______________________________________
