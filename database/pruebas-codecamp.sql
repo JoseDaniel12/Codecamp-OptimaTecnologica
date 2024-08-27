@@ -9,6 +9,8 @@ SELECT * FROM Orden;
 SELECT * FROM Productos;
 SELECT * FROM OrdenDetalles;
 
+SELECT * FROM viewUsuario
+
 EXEC CrearOrdenPorIdUsuario @usuarios_idusuarios = 2;
 EXEC ObtenerOrdenes;
 

@@ -11,18 +11,18 @@ INSERT INTO dbo.rol (nombre) VALUES ('Operador Administrativo'), ('Cliente');
 -- Insertar 12 usuarios
 INSERT INTO dbo.usuarios (rol_idrol, estados_idestados, correo_electronico, nombre_completo, password, telefono, fecha_nacimiento)
 VALUES
-(2, 1, 'user1@gmail.com', 'Usuario Uno', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567890', '1980-01-01'),
-(2, 1, 'user2@gmail.com', 'Usuario Dos', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567891', '1981-02-01'),
-(2, 1, 'user3@gmail.com', 'Usuario Tres', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567892', '1982-03-01'),
-(2, 1, 'user4@gmail.com', 'Usuario Cuatro', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567893', '1983-04-01'),
-(2, 1, 'user5@gmail.com', 'Usuario Cinco', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567894', '1984-05-01'),
-(2, 1, 'user6@gmail.com', 'Usuario Seis', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567895', '1985-06-01'),
-(2, 1, 'user7@gmail.com', 'Usuario Siete', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567896', '1986-07-01'),
-(2, 1, 'user8@gmail.com', 'Usuario Ocho', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567897', '1987-08-01'),
-(2, 1, 'user9@gmail.com', 'Usuario Nueve', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567898', '1988-09-01'),
-(2, 1, 'user10@gmail.com', 'Usuario Diez', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567899', '1989-10-01'),
-(2, 1, 'user11@gmail.com', 'Usuario Once', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567890', '1990-11-01'),
-(2, 1, 'user12@example.com', 'Usuario Doce', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567891', '1991-12-01'),
+(2, 1, 'usuario1@gmail.com', 'Usuario Uno', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567890', '1980-01-01'),
+(2, 1, 'usuario2@gmail.com', 'Usuario Dos', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567891', '1981-02-01'),
+(2, 1, 'usuario3@gmail.com', 'Usuario Tres', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567892', '1982-03-01'),
+(2, 1, 'usuario4@gmail.com', 'Usuario Cuatro', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567893', '1983-04-01'),
+(2, 1, 'usuario5@gmail.com', 'Usuario Cinco', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567894', '1984-05-01'),
+(2, 1, 'usuario6@gmail.com', 'Usuario Seis', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567895', '1985-06-01'),
+(2, 1, 'usuario7@gmail.com', 'Usuario Siete', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567896', '1986-07-01'),
+(2, 1, 'usuario8@gmail.com', 'Usuario Ocho', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567897', '1987-08-01'),
+(2, 1, 'usuario9@gmail.com', 'Usuario Nueve', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567898', '1988-09-01'),
+(2, 1, 'usuario10@gmail.com', 'Usuario Diez', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567899', '1989-10-01'),
+(2, 1, 'usuario11@gmail.com', 'Usuario Once', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567890', '1990-11-01'),
+(2, 1, 'usuario12@example.com', 'Usuario Doce', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '1234567891', '1991-12-01'),
 (1, 1, 'admin@gmail.com', 'Administrador', '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK', '73846723', '2000-12-12');
 
 -- Insertar 12 categorías de productos
