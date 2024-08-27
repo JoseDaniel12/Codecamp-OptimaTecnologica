@@ -4,7 +4,7 @@ GO
 CREATE OR ALTER PROCEDURE ObtenerProductos
 AS
 BEGIN
-    SELECT * FROM productos;
+    SELECT * FROM viewProducto;
 END;
 
 GO
@@ -13,7 +13,20 @@ CREATE OR ALTER PROCEDURE ObtenerProductoPorId
     @idProductos INT
 AS
 BEGIN
-    SELECT * FROM productos WHERE idProductos = @idProductos;
+    SELECT * FROM viewProducto WHERE idProductos = @idProductos;
+END;
+
+GO
+
+CREATE OR ALTER PROCEDURE ObtenerProductosPorIds
+    @idsProductos NVARCHAR(MAX)
+AS
+BEGIN
+    SELECT * 
+    FROM viewProducto
+    WHERE idProductos IN (
+        SELECT value FROM STRING_SPLIT(@idsProductos, ',')
+    );
 END;
 
 GO
@@ -25,7 +38,6 @@ CREATE OR ALTER PROCEDURE CrearProducto
     @marca VARCHAR(45),
     @codigo VARCHAR(45),
     @stock FLOAT,
-    @estados_idestados INT,
     @precio FLOAT,
     @foto VARBINARY(MAX)
 AS
@@ -47,12 +59,16 @@ BEGIN
         @marca,
         @codigo,
         @stock,
-        @estados_idestados,
+        (
+            SELECT idestados 
+            FROM estados 
+            WHERE nombre = 'Activo'
+        ),
         @precio,
         @foto
     );
 
-    SELECT * FROM Productos WHERE idProductos = SCOPE_IDENTITY();
+    SELECT * FROM viewProducto WHERE idProductos = SCOPE_IDENTITY();
 END;
 
 GO
@@ -83,7 +99,7 @@ BEGIN
         foto = @foto
     WHERE idProductos = @idProductos;
 
-    SELECT * FROM Productos WHERE idProductos = @idProductos;
+    SELECT * FROM viewProducto WHERE idProductos = @idProductos;
 END;
 
 GO
@@ -100,5 +116,5 @@ BEGIN
     )
     WHERE idProductos = @idProductos;
 
-    SELECT * FROM Productos WHERE idProductos = @idProductos;
+    SELECT * FROM viewProducto WHERE idProductos = @idProductos;
 END;

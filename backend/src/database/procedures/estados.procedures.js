@@ -44,16 +44,33 @@ const estadosProcedures = {
         }
     },
 
+    obtenerEstadoPorNombre: async (nombre) => {
+        try {
+            let query = `EXEC ObtenerEstadoPorNombre @nombre = :nombre;`;
+            const estados = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    nombre: nombre
+                }
+            });
+            const estado = estados[0] || null;
+            return estado;
+        } catch (error) {
+            throw new Error(`Error al obtener estado por nombre. \n${error.message}`);
+        }
+    },
+
     actualizarEstado: async (datos) => {
         try {
             let query = `EXEC ActualizarEstado @idestados = :idestados, @nombre = :nombre;`;
-            const estado = await sqlServerConn.query(query, {
+            const result = await sqlServerConn.query(query, {
                 type: sqlServerConn.QueryTypes.SELECT,
                 replacements: {
                     idestados: datos.idestados,
                     nombre: datos.nombre
                 }
             });
+            const estado = result[0] || null;
             return estado;
         } catch (error) {
             throw new Error(`Error al actualizar estado. \n${error.message}`);

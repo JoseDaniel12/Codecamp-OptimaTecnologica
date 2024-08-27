@@ -6,15 +6,13 @@ const categoriasProcedures = {
             const query = `
                 EXEC CrearCategoria 
                     @usuarios_idusuarios = :usuarios_idusuarios,
-                    @nombre = :nombre,
-                    @estados_idestados = :estados_idestados;
+                    @nombre = :nombre;
             `;
             const result = await sqlServerConn.query(query, {
                 type: sqlServerConn.QueryTypes.SELECT,
                 replacements: {
                     usuarios_idusuarios: datos.usuarios_idusuarios,
-                    nombre: datos.nombre,
-                    estados_idestados: datos.estados_idestados,
+                    nombre: datos.nombre
                 }
             });
             return result[0];
@@ -51,22 +49,38 @@ const categoriasProcedures = {
         }
     },
 
+    obtenerCategoriaPorNombre: async (nombre) => {
+        try {
+            let query = `EXEC ObtenerCategoriaPorNombre @nombre = :nombre;`;
+            const categorias = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    nombre
+                }
+            });
+            const categoria = categorias[0] || null;
+            return categoria;
+        } catch (error) {
+            throw new Error(`Error al obtener categoria por nombre. \n${error.message}`);
+        }
+    },
+
     actualizarCategoria: async (datos) => {
         try {
             const query = `
                 EXEC ActualizarCategoria 
-                    @idcategorias = :idcategorias,
+                    @idCategoriaProductos = :idCategoriaProductos,
                     @usuarios_idusuarios = :usuarios_idusuarios,
-                    @nombre = :nombre;
+                    @nombre = :nombre,
                     @estados_idestados = :estados_idestados;
             `;
             const result = await sqlServerConn.query(query, {
                 type: sqlServerConn.QueryTypes.SELECT,
                 replacements: {
-                    idcategorias: datos.idcategorias,
+                    idCategoriaProductos: datos.idCategoriaProductos,
                     usuarios_idusuarios: datos.usuarios_idusuarios,
                     nombre: datos.nombre,
-                    estados_idestados: datos.estados_idestados,
+                    estados_idestados: datos.estados_idestados
                 }
             });
             return result[0];

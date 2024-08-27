@@ -35,13 +35,14 @@ BEGIN
         estados_idestados INT,
         correo_electronico VARCHAR(45),
         nombre_completo VARCHAR(45),
-        password VARCHAR(45),
-        telefono VARCHAR(45),
+        direccion VARCHAR(545) DEFAULT '',
+        password VARCHAR(MAX),
+        telefono VARCHAR(45) DEFAULT '',
         fecha_nacimiento DATE,
         fecha_creacion DATETIME DEFAULT GETDATE(),
 
-        FOREIGN KEY (rol_idrol) REFERENCES rol(idrol),
-        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados)
+        FOREIGN KEY (rol_idrol) REFERENCES rol(idrol) ON DELETE SET NULL,
+        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados) ON DELETE SET NULL
     );
 END;
 
@@ -55,8 +56,8 @@ BEGIN
         estados_idestados INT,
         fecha_creacion DATETIME DEFAULT GETDATE(),
 
-        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios),
-        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados)
+        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios) ON DELETE SET NULL,
+        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados) ON DELETE SET NULL
     );
 END;
 
@@ -75,8 +76,8 @@ BEGIN
         fecha_entrega DATE,
         total_orden FLOAT DEFAULT 0,
 
-        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios),
-        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados)
+        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios) ON DELETE SET NULL,
+        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados) ON DELETE SET NULL
     );
 END;
 
@@ -90,15 +91,15 @@ BEGIN
         nombre VARCHAR(45),
         marca VARCHAR(45),
         codigo VARCHAR(45),
-        stock FLOAT,
+        stock FLOAT DEFAULT 0,
         estados_idestados INT,
         precio FLOAT DEFAULT 0,
         fecha_creacion DATETIME DEFAULT GETDATE(),
         foto VARBINARY(MAX),
 
-        FOREIGN KEY (CategoriaProductos_idCategoriaProductos) REFERENCES CategoriaProductos(idCategoriaProductos),
-        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios),
-        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados)
+        FOREIGN KEY (CategoriaProductos_idCategoriaProductos) REFERENCES CategoriaProductos(idCategoriaProductos) ON DELETE SET NULL,
+        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios) ON DELETE SET NULL,
+        FOREIGN KEY (estados_idestados) REFERENCES estados(idestados) ON DELETE SET NULL
     );
 END;
 
@@ -113,7 +114,7 @@ BEGIN
         precio FLOAT DEFAULT 0,
         subtotal FLOAT DEFAULT 0,
 
-        FOREIGN KEY (Orden_idOrden) REFERENCES Orden(idOrden),
-        FOREIGN KEY (Productos_idProductos) REFERENCES Productos(idProductos)
+        FOREIGN KEY (Orden_idOrden) REFERENCES Orden(idOrden) ON DELETE SET NULL,
+        FOREIGN KEY (Productos_idProductos) REFERENCES Productos(idProductos) ON DELETE SET NULL
     );
 END;

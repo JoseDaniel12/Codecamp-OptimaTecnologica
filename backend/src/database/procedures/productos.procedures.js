@@ -14,20 +14,18 @@ const productosProcedures = {
                     @marca = :marca,
                     @codigo = :codigo,
                     @stock = :stock,
-                    @estados_idestados = :estados_idestados,
                     @precio = :precio,
                     @foto = :foto;
             `;
             const result = await sqlServerConn.query(query, {
                 type: sqlServerConn.QueryTypes.SELECT,
                 replacements: {
-                    CategoriaProductos_idCategoriaProductos: datos.Categoria_idCategoria,
+                    CategoriaProductos_idCategoriaProductos: datos.CategoriaProductos_idCategoriaProductos,
                     usuarios_idusuarios: datos.usuarios_idusuarios,
                     nombre: datos.nombre,
                     marca: datos.marca,
                     codigo: datos.codigo,
                     stock: datos.stock,
-                    estados_idestados: datos.estados_idestados,
                     precio: datos.precio,
                     foto: datos.foto,
                 },
@@ -73,6 +71,26 @@ const productosProcedures = {
         }
     },
 
+    obtenerProductosPorId: async (idsProductos) => {
+        const stringIdsProductos = idsProductos.join(',');
+        try {
+            const query = `EXEC ObtenerProductosPorIds @idsProductos = :idsProductos;`;
+            let productos = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    idsProductos: stringIdsProductos
+                }
+            });
+            productos = productos.map(p => {
+                if (p.foto) p.foto = Buffer.from(p.foto).toString('base64');
+                return p;
+            });
+            return productos;
+        } catch (error) {
+            throw new Error(`Error al obtener productos por sus ids. \n${error.message}`);
+        }
+    },
+
     actualizarProducto: async (datos) => {
         try {
             const query = `
@@ -103,7 +121,9 @@ const productosProcedures = {
                     foto: datos.foto,
                 },
             });
-            return result;
+            const producto = result[0] || null;
+            if (producto?.foto) producto.foto = Buffer.from(producto.foto).toString('base64');
+            return producto;
         } catch (error) {
             throw new Error(`Error al actualizar producto. \n${error.message}`);
         }

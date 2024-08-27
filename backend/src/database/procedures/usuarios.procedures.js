@@ -6,8 +6,8 @@ const usuariosProcedures = {
             const query = `
                 EXEC CrearUsuario 
                     @rol_idrol = :rol_idrol,
-                    @estados_idestados = :estados_idestados,
                     @correo_electronico = :correo_electronico,
+                    @direccion = :direccion,
                     @nombre_completo = :nombre_completo,
                     @password = :password,
                     @telefono = :telefono,
@@ -16,9 +16,9 @@ const usuariosProcedures = {
             const result = await sqlServerConn.query(query, {
                 replacements: {
                     rol_idrol: datos.rol_idrol,
-                    estados_idestados: datos.estados_idestados,
                     correo_electronico: datos.correo_electronico,
                     nombre_completo: datos.nombre_completo,
+                    direccion: datos.direccion,
                     password: datos.password,
                     telefono: datos.telefono,
                     fecha_nacimiento: datos.fecha_nacimiento,
@@ -58,6 +58,22 @@ const usuariosProcedures = {
         }
     },
 
+    obtenerUsuarioPorCorreo: async (correo) => {
+        try {
+            let query = `EXEC ObtenerUsuarioPorCorreo @correo_electronico = :correo_electronico;`;
+            const usuarios = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    correo_electronico: correo
+                }
+            });
+            const usuario = usuarios[0] || null;
+            return usuario;
+        } catch (error) {
+            throw new Error(`Error al obtener usuario por correo. \n${error.message}`);
+        }
+    },
+
     actualizarUsuario: async (datos) => {
         try {
             let query = `
@@ -71,7 +87,7 @@ const usuariosProcedures = {
                     @telefono = :telefono,
                     @fecha_nacimiento = :fecha_nacimiento;
             `;
-            const usuario = await sqlServerConn.query(query, {
+            const result = await sqlServerConn.query(query, {
                 type: sqlServerConn.QueryTypes.SELECT,
                 replacements: {
                     idusuarios: datos.idusuarios,
@@ -84,6 +100,7 @@ const usuariosProcedures = {
                     fecha_nacimiento: datos.fecha_nacimiento,
                 },
             });
+            const usuario = result[0] || null;
             return usuario;
         } catch (error) {
             throw new Error(`Error al actualizar usuario. \n${error.message}`);

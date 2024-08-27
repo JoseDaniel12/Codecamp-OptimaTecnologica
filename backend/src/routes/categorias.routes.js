@@ -1,59 +1,86 @@
 const express = require('express');
+const validateToken = require('../middlewares/validateToken');
+const rolesUsuario = require('../types/rolesUsuario');
+const estados = require('../types/estados');
 const categoriasProcedures = require('../database/procedures/categorias.procedures');
+const estadosProcedures = require('../database/procedures/estados.procedures');
 
 const router = express.Router();
 
-router.post('/categoria', async (req, res) => {
-    try {
-        const result = await categoriasProcedures.crearCategoria(req.body);
-        res.json(result);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
 
-
-router.get('/', async (_, res) => {
+router.post('/categoria', validateToken([rolesUsuario.ADMIN]), async (req, res) => {
     try {
+        const _usuario = req._usuario;
+        const { nombre } = req.body;
+
         const categorias = await categoriasProcedures.obtenerCategorias();
-        res.json(categorias);
+        const categoriaExistente = categorias.find(categoria => categoria.nombre === nombre);
+        if (categoriaExistente) return res.status(400).json({ error: 'Ya existe una categoria con ese nombre.' });
+        
+        const datosCategoria = {
+            usuarios_idusuarios: _usuario.idusuarios,
+            nombre
+        }; 
+        const categoria = await categoriasProcedures.crearCategoria(datosCategoria);
+        res.status(201).json(categoria);
     } catch (error) {
+        if (process.env.NODE_ENV === 'DEV') console.error(error);
         res.status(500).json({ error: error.message });
     }
 });
 
 
-router.get('/categoria/:idCategoria', async (req, res) => {
+router.get('/', validateToken(), async (req, res) => {
+    try {
+        const { estado } = req.query;
+        let categorias = await categoriasProcedures.obtenerCategorias();
+        if (estado) {
+            categorias = categorias.filter(c => c.estado === estado);
+        }
+        res.status(200).json({ categorias });
+    } catch (error) {
+        if (process.env.NODE_ENV === 'DEV') console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+router.get('/categoria/:idCategoria', validateToken(), async (req, res) => {
     try {
         const idCategoria = parseInt(req.params.idCategoria);
         const categoria = await categoriasProcedures.obtenerCategoriaPorId(idCategoria);
         if (!categoria) return res.status(404).json({ error: 'Categoria no encontrada.' });
-        res.json(categoria);
+        res.status(200).json({ categoria });
     } catch (error) {
+        if (process.env.NODE_ENV === 'DEV') console.error(error);
         res.status(500).json({ error: error.message });
     }
 });
 
 
-router.put('/categoria/:idCategoria', async (req, res) => {
+router.put('/categoria/:idCategoria', validateToken(), async (req, res) => {
     try {
         const idCategoria = parseInt(req.params.idCategoria);
-        const categoria = await categoriasProcedures.obtenerCategoriaPorId(idCategoria);
+        const { nombre, estados_idestados } = req.body;
+
+        let categoria = await categoriasProcedures.obtenerCategoriaPorId(idCategoria);
         if (!categoria) return res.status(404).json({ error: 'Categoria no encontrada.' });
-        const result = await categoriasProcedures.actualizarCategoria({ ...categoria, ...req.body });
-        res.json(result);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
 
+        const categoriaExistente = await categoriasProcedures.obtenerCategoriaPorNombre(nombre);
+        if (categoriaExistente && categoriaExistente.idCategoriaProductos != idCategoria) {
+            return res.status(400).json({ error: 'Ya existe una categoria con ese nombre.' });
+        }
 
-router.patch('/darBaja/categoria/:idCategoria', async (req, res) => {
-    try {
-        const idCategoria = parseInt(req.params.idCategoria);
-        const result = await categoriasProcedures.darBajaCategoriaPorId(idCategoria);
-        res.json(result);
+        const estado = await estadosProcedures.obtenerEstadoPorId(estados_idestados);
+        if (!estado) return res.status(400).json({ error: 'El estado no es válido.' });
+        if (![estados.ACTIVO, estados.INACTIVO].includes(estado.nombre)) return res.status(400).json({ error: 'No se puede asignar ese estado a la categoria.' });
+
+        categoria.nombre = nombre;
+        categoria.estados_idestados = estados_idestados;
+        categoria = await categoriasProcedures.actualizarCategoria(categoria);
+        res.status(200).json({ categoria });
     } catch (error) {
+        if (process.env.NODE_ENV === 'DEV') console.error(error);
         res.status(500).json({ error: error.message });
     }
 });

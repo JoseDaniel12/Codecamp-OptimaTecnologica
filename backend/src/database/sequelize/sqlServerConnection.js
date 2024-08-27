@@ -1,4 +1,8 @@
 const { Sequelize } = require('sequelize');
+const cls = require('cls-hooked');
+
+const namespace = cls.createNamespace('codecamp');
+Sequelize.useCLS(namespace);
 
 const sequelize = new Sequelize(
     process.env.SQL_SERVER_DATABASE,

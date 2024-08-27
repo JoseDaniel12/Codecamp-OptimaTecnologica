@@ -1,57 +1,45 @@
 USE "db-codecamp-optimatecnologica";
-
 GO
 
--- Consulta A:
-CREATE OR ALTER VIEW ConsultaA AS
-SELECT
-    COUNT(*) AS totalProductosActivosConStock
-FROM Productos AS p
-INNER JOIN estados AS e ON p.estados_idestados = e.idestados
-WHERE e.nombre = 'Activo';
-
-GO
-
--- Consulta B:
-CREATE OR ALTER VIEW ConsultaB AS
-SELECT
-    SUM(total_orden) AS totalQuetzalesAgosto2024
-FROM Orden
-WHERE MONTH(fecha_creacion) = 8 AND YEAR(fecha_creacion) = 2024;
-
-GO
-
--- Consulta C:
-CREATE OR ALTER VIEW ConsultaC AS
+CREATE OR ALTER VIEW viewUsuario
+AS
 SELECT
     u.*,
-    consumo_usuarios.monto_consumo
-FROM (
-    SELECT TOP 10
-        u.idusuarios,
-        SUM(o.total_orden) AS monto_consumo
-    FROM usuarios AS u
-    INNER JOIN  Orden AS o ON u.idusuarios = o.usuarios_idusuarios
-    GROUP BY u.idusuarios
-    ORDER BY monto_consumo DESC
-) AS consumo_usuarios
-INNER JOIN usuarios AS u ON consumo_usuarios.idusuarios = u.idusuarios;
+    r.nombre AS rol,
+    e.nombre AS estado
+FROM usuarios AS u
+LEFT JOIN rol AS r ON r.idrol = u.rol_idrol
+LEFT JOIN estados AS e ON e.idestados = u.estados_idestados
 
 GO
 
--- Consulta D:
-CREATE OR ALTER VIEW ConsultaD AS
+CREATE OR ALTER VIEW viewProducto
+AS
 SELECT
     p.*,
-    venta_productos.cant_vendida
-FROM (
-    SELECT TOP 10
-        p.idProductos,
-        SUM(od.cantidad) AS cant_vendida
-    FROM OrdenDetalles AS od
-    INNER JOIN Productos AS p ON od.Productos_idProductos = p.idProductos
-    GROUP BY p.idProductos
-    ORDER BY cant_vendida ASC
+    cp.nombre AS categoria,
+    e.nombre AS estado
+FROM Productos AS p
+LEFT JOIN CategoriaProductos AS cp ON p.CategoriaProductos_idCategoriaProductos = cp.idCategoriaProductos
+LEFT JOIN estados AS e ON p.estados_idestados = e.idestados;
 
-) AS venta_productos
-INNER JOIN Productos AS p ON venta_productos.idProductos = p.idProductos;
+GO
+
+CREATE OR ALTER VIEW viewOrden
+AS
+SELECT
+    o.*,
+    e.nombre AS estado
+FROM Orden AS o
+LEFT JOIN estados AS e ON o.estados_idestados = e.idestados;
+
+GO
+
+CREATE OR ALTER VIEW viewCategoriaProductos
+AS
+SELECT
+    cp.*,
+    e.nombre AS estado
+FROM CategoriaProductos AS cp
+LEFT JOIN estados AS e ON cp.estados_idestados = e.idestados;
+

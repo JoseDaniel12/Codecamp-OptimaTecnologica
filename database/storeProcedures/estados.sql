@@ -19,6 +19,15 @@ END;
 
 GO
 
+CREATE OR ALTER PROCEDURE ObtenerEstadoPorNombre
+    @nombre VARCHAR(45)
+AS
+BEGIN
+    SELECT * FROM estados WHERE nombre = @nombre;
+END;
+
+GO
+
 CREATE OR ALTER PROCEDURE CrearEstado
     @nombre VARCHAR(45)
 AS
