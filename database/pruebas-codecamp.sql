@@ -9,11 +9,19 @@ SELECT * FROM Orden;
 SELECT * FROM Productos;
 SELECT * FROM OrdenDetalles;
 
+SELECT * FROM viewUsuario
 
-SELECT * FROM ConsultaA;
-SELECT * FROM ConsultaB;
-SELECT * FROM ConsultaC;
-SELECT * FROM ConsultaD;
+EXEC CrearOrdenPorIdUsuario @usuarios_idusuarios = 2;
+EXEC ObtenerOrdenes;
+
+
+ALTER TABLE Orden
+ADD CONSTRAINT DF_NombreDeLaTabla_NombreDelCampo DEFAULT 0 FOR NombreDelCampo;
+
+
+UPDATE usuarios
+SET password = '$2a$04$EAlvbl5VvHbgPbNpI7GlR.M18ebUmG/EOegP4FRdFtk1M0YG9VjPK';
+
 
 
 -- _______________________________________ PROCEDIMIENTOS DE INSERSCIÓN _______________________________________
