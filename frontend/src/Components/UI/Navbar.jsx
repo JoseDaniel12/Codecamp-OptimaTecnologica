@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,24 +12,43 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { Tooltip } from '@mui/material';
 
+import { useAuth } from '@/hooks/useAuth';
+
 const pages = ['Products', 'Pricing', 'Blog'];
 
 function Navbar() {
+    const { loginData, setLoginData, rutasAutorizadas } = useAuth();
+    const usuario = loginData ? loginData.usuario : null;
+    const navigate = useNavigate();
+
     const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenNavMenu = event => {
         setAnchorElNav(event.currentTarget);
     };
-    
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
+    const handleOpenUserMenu = event => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const handleCerrarSesion = () => {
+        setLoginData(null);
+        navigate('/login');
+    };
+
 
     return (
         <AppBar position="static" sx={{color: 'blue', mb: 2 }}>
-            <Toolbar >
+            <Toolbar>
                 <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
                         size="large"
@@ -59,35 +78,52 @@ function Navbar() {
                             display: { xs: 'block', md: 'none' },
                         }}
                     >
-                        {pages.map((page) => (
-                            <MenuItem key={page} onClick={() => {}}>
-                                <Typography textAlign="center">{page}</Typography>
+                        {rutasAutorizadas.map((ruta) => (
+                            <MenuItem key={ruta.label} onClick={() => {}}>
+                                <Typography textAlign="center">{ruta.label}</Typography>
                             </MenuItem>
                         ))}
                     </Menu>
                 </Box>
 
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                    {pages.map(page => (
+                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    {rutasAutorizadas.map(ruta => (
                         <Button
-                            key={page}
-                            onClick={() => console.log(page)}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            key={ruta.label}
+                            onClick={() => navigate(ruta.path)}
+                            sx={{ my: 2, color: 'white' }}
                         >
-                            {page}
+                            {ruta.label}
                         </Button>
                     ))}
                 </Box>
 
-                <Box>
+                <Box sx={{ml: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                     <Tooltip title='Carrito de Compras'>
                         <IconButton>
                             <LocalGroceryStoreIcon fontSize='large'/>
                         </IconButton>
                     </Tooltip>
+
+                    <Typography 
+                        variant='h6' 
+                        sx={{color: 'white'}}
+                        onClick={handleOpenUserMenu}
+                    >
+                        {usuario?.nombre_completo}
+                    </Typography>
+                    <Menu
+                        id="menu-user"
+                        anchorEl={anchorElUser}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                    >
+                        <MenuItem onClick={handleCerrarSesion}>Cerrar Sesion</MenuItem>
+                    </Menu>
                 </Box>
             </Toolbar>
         </AppBar>
+
     );
 }
 

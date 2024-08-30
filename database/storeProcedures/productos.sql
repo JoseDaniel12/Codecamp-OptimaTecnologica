@@ -60,7 +60,7 @@ BEGIN
         @codigo,
         @stock,
         (
-            SELECT idestados 
+            SELECT idestados
             FROM estados 
             WHERE nombre = 'Activo'
         ),

@@ -3,4 +3,4 @@ const rolesUsuario = {
     CLIENTE: 2,
 };
 
-module.exports = rolesUsuario;
+export default rolesUsuario;

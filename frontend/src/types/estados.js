@@ -9,4 +9,4 @@ const estados = {
     RECHAZADO: 5,
 };
 
-module.exports = estados;
+export default estados;
