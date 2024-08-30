@@ -1,19 +1,32 @@
 import { Routes, Route } from 'react-router-dom';
-import Dashboard from '/src/Components/UI/Dashboard';
-import Login from '/src/Components/Auth/Login';
+import Dashboard from '@/components/UI/Dashboard';
+
+import Login from '@/components/Auth/Login';
+import Registro from '@/components/Auth/Registro';
+import { useAuth } from '@/hooks/useAuth';
 
 function Rutas() {
-    const rutas = (
-        <>
-            <Route index element={<Login/>} />
-        </>
-    );
+    const { loginData, rutasAutorizadas } = useAuth();
 
     return (
         <Routes>
-            <Route path="/" element={<Dashboard/>}>
-                {rutas} 
-            </Route>
+            <Route path='/login' element={<Login />} />
+            <Route path='/registro' element={<Registro />} />
+            {
+                !loginData ? (
+                    <>
+                        <Route index element={<Login />} />
+                    </>
+                ) : (
+                    <Route path='/' element={<Dashboard />}>
+                        {
+                            rutasAutorizadas.map(ruta => (
+                                <Route key={ruta.path} path={ruta.path} element={ruta.element} />
+                            ))
+                        } 
+                    </Route>
+                )
+            }
         </Routes>
     );
 }

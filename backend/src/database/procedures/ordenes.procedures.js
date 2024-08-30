@@ -33,6 +33,29 @@ const ordenesProcedures = {
         }
     },
 
+    crearOrdenConDetalles: async (datos) => {
+        try {
+            const query = `
+                EXEC CrearOrdenConDetalles
+                    @usuarios_idusuarios = :usuarios_idusuarios,
+                    @detalles = :detalles
+            `;
+            const result = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    usuarios_idusuarios: datos.usuarios_idusuarios,
+                    detalles: JSON.stringify(datos.detallesOrden)
+
+                },
+                plain: true
+            });
+            return result;
+        } catch (error) {
+            throw new Error(`Error al crear orden. \n${error.message}`);
+        }
+    },
+
+
     crearOrdenPorIdUsuario: async (idUsuario) => {
         try {
             const query = `

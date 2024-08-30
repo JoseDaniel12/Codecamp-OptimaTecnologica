@@ -13,7 +13,7 @@ const validateToken = (allowedRoles = []) => {
 
             // Si no se envían roles permitidos, se permite el acceso a cualquier usuario
             // Si se envían roles permitidos, se verifica que el usuario tenga un rol permitido
-            if (allowedRoles.length && !allowedRoles.includes(usuario.rol)) {
+            if (allowedRoles.length && !allowedRoles.includes(usuario.idusuarios)) {
                 return res.status(403).json({msg: 'No posee un rol autorizado para acceder al recurso.'});
             }
 

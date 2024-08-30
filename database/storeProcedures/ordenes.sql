@@ -1,6 +1,80 @@
 USE "db-codecamp-optimatecnologica";
 GO
 
+CREATE OR ALTER PROCEDURE CrearOrdenConDetalles
+    @usuarios_idusuarios INT,
+    @detalles NVARCHAR(MAX)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        DECLARE @idOrden INT;
+
+        INSERT INTO Orden (
+            usuarios_idusuarios,
+            estados_idestados,
+            nombre_completo,
+            direccion,
+            telefono,
+            correo_electronico
+        )
+        SELECT TOP 1
+            u.idusuarios AS usuarios_idusuarios,
+            (
+                SELECT idestados
+                FROM estados
+                WHERE nombre = 'Confirmado'
+            ),
+            u.nombre_completo,
+            u.direccion,
+            u.telefono,
+            u.correo_electronico
+        FROM usuarios AS u
+        WHERE u.idusuarios = @usuarios_idusuarios;
+
+        SET @idOrden = SCOPE_IDENTITY();
+
+        INSERT INTO OrdenDetalles (
+            Orden_idOrden,
+            Productos_idProductos,
+            cantidad,
+            precio,
+            subtotal
+        )
+        SELECT
+            @idOrden,
+            Productos_idProductos,
+            cantidad,
+            precio,
+            subtotal
+        FROM OPENJSON(@detalles)
+        WITH (
+            idProductos INT,
+            Productos_idProductos INT,
+            cantidad INT,
+            precio FLOAT,
+            subtotal FLOAT
+        );
+
+        UPDATE Orden
+        SET total_orden = (
+            SELECT SUM(subtotal)
+            FROM OrdenDetalles
+            WHERE Orden_idOrden = @idOrden
+        )
+        WHERE idOrden = @idOrden;
+
+        SELECT * FROM viewOrden WHERE idOrden = @idOrden;
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK;
+        THROW;
+    END CATCH;
+END;
+
+GO
+
 CREATE OR ALTER PROCEDURE ObtenerOrdenes
 AS
 BEGIN

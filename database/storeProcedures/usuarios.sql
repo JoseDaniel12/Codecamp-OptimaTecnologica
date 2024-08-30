@@ -32,7 +32,7 @@ CREATE OR ALTER PROCEDURE CrearUsuario
     @correo_electronico VARCHAR(45),
     @nombre_completo VARCHAR(45),
     @direccion VARCHAR(545),
-    @password VARCHAR(45),
+    @password VARCHAR(MAX),
     @telefono VARCHAR(45),
     @fecha_nacimiento DATE
 AS

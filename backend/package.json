@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mui/x-date-pickers": "^7.14.0",
     "bcryptjs": "^2.4.3",
     "cls-hooked": "^4.2.2",
+    "dayjs": "^1.11.13",
     "express": "^4.19.2",
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
