@@ -4,12 +4,12 @@ import Navbar from './Navbar';
 
 function Dashboard() {
     return (
-        <div>
+        <>
             <Navbar/>
-            <Container sx={{backgroundColor: "green"}}>
+            <Container sx={{ paddingTop: 2,  paddingBottom: 4 }}>
                 <Outlet />
             </Container>
-        </div>
+        </>
     );
 }
 

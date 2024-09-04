@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,16 +10,24 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import Badge from '@mui/material/Badge'
 import { Tooltip } from '@mui/material';
 
 import { useAuth } from '@/hooks/useAuth';
+import useCarrito from '@/hooks/useCarrito';
+import navbarOptions from './navbarOptions';
 
-const pages = ['Products', 'Pricing', 'Blog'];
 
 function Navbar() {
-    const { loginData, setLoginData, rutasAutorizadas } = useAuth();
+    const { carrito, cantProductos } = useCarrito();
+    const { loginData, setLoginData } = useAuth();
     const usuario = loginData ? loginData.usuario : null;
     const navigate = useNavigate();
+
+    const rutasAutorizadas = navbarOptions.filter(ruta => {
+        if (!ruta.roles) return true;
+        return ruta.roles.includes(usuario.rol);
+    });
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -47,7 +55,7 @@ function Navbar() {
 
 
     return (
-        <AppBar position="static" sx={{color: 'blue', mb: 2 }}>
+        <AppBar position="static" sx={{color: 'blue', marginBottom: 2, position:'sticky', top: 0, zIndex: 1000 }}>
             <Toolbar>
                 <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
@@ -101,7 +109,9 @@ function Navbar() {
                 <Box sx={{ml: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                     <Tooltip title='Carrito de Compras'>
                         <IconButton>
-                            <LocalGroceryStoreIcon fontSize='large'/>
+                            <Badge badgeContent={cantProductos} color='error' onClick={() => navigate('/carrito')}>
+                                <LocalGroceryStoreIcon fontSize='large'/>
+                            </Badge>
                         </IconButton>
                     </Tooltip>
 

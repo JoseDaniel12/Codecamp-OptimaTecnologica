@@ -11,6 +11,8 @@ const router = express.Router();
 
 router.get('/', validateToken(), ordenesController.obtenerOrdenes);
 router.get('/orden/:idOrden', validateToken(), ordenesController.obtenerOrdenPorId);
+router.get('/orden/:idOrden/detalles', validateToken(), ordenesController.obtenerDetallesOrden);
+
 
 const crearOrdenReqChecks =  [
     check('detallesOrden').isArray({ min: 1 }).withMessage('detallesOrden debe ser un array con al menos un elemento.'),
@@ -18,13 +20,13 @@ const crearOrdenReqChecks =  [
     check('detallesOrden.*.cantidad').isInt({ min: 1 }).withMessage('cantidad debe ser un número entero positivo.'),
     validateAtributes
 ];
-router.post('/orden', [validateToken([rolesUsuario.CLIENTE]), crearOrdenReqChecks], ordenesController.crearOrden);
+router.post('/orden', [validateToken([]), crearOrdenReqChecks], ordenesController.crearOrden);
 
 
 const procesarOrdenReqChecks = [
     check('idEstado').isIn([tiposEstados.ENTREGADO, tiposEstados.RECHAZADO]).withMessage(`Se reuqiere Id de estado Entregado o Rehcazado.`),
     validateAtributes
 ];
-router.patch('/orden/:idOrden/procesar', [validateToken([rolesUsuario.ADMIN]), procesarOrdenReqChecks], ordenesController.procesarOrden);
+router.patch('/orden/:idOrden/procesar', [validateToken(), procesarOrdenReqChecks], ordenesController.procesarOrden);
 
 module.exports = router;

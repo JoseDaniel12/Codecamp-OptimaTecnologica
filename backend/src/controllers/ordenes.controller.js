@@ -37,6 +37,18 @@ const obtenerOrdenPorId = async (req, res) => {
 };
 
 
+const obtenerDetallesOrden = async (req, res) => {
+    try {
+        const idOrden = parseInt(req.params.idOrden);
+        const detallesOrden = await ordenesProcedures.obtenerDetallesOrden(idOrden);
+        res.status(200).json({ detallesOrden });
+    } catch (error) {
+        if (process.env.NODE_ENV === 'DEV') console.error(error);
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+
 const crearOrden = async (req, res) => {
     try {
         await sqlServerConn.transaction(async () => {
@@ -97,9 +109,11 @@ const procesarOrden = async (req, res) => {
         let orden = await ordenesProcedures.obtenerOrdenPorId(idOrden);
         if (!orden) return res.status(404).json({ error: 'Orden no encontrada.' });
         orden.estados_idestados = nuevoEstado.idestados;
+        if (nuevoEstado.idestados === tiposEstados.ENTREGADO) {
+            orden.fechaEntrega = new Date();
+        }
         orden = await ordenesProcedures.actualizarOrden(orden);
-
-        return res.status(200).json(orden);
+        return res.status(200).json({ orden });
     } catch (error) {
         if (process.env.NODE_ENV === 'DEV') console.error(error);
         return res.status(500).json({ error: error.message });
@@ -110,6 +124,7 @@ const procesarOrden = async (req, res) => {
 module.exports = {
     obtenerOrdenes,
     obtenerOrdenPorId,
+    obtenerDetallesOrden,
     crearOrden,
     procesarOrden,
 };

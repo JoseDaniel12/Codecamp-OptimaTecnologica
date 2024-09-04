@@ -1,3 +1,4 @@
+const { obtenerDetallesOrden } = require('../../controllers/ordenes.controller');
 const sqlServerConn = require('../sequelize/sqlServerConnection');
 
 const ordenesProcedures = {
@@ -100,6 +101,21 @@ const ordenesProcedures = {
             return orden;
         } catch (error) {
             throw new Error(`Error al obtener orden por id. \n${error.message}`);
+        }
+    },
+
+    obtenerDetallesOrden: async (idOrden) => {
+        try {
+            let query = `EXEC ObtenerDetallesOrden @idOrden = :idOrden;`;
+            const detallesOrden = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    idOrden: idOrden
+                }
+            });
+            return detallesOrden;
+        } catch (error) {
+            throw new Error(`Error al obtener detalles de orden. \n${error.message}`);
         }
     },
 

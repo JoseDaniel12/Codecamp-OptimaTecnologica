@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [loginData, setLoginData] = useLocalStorage('loginDataOptimaTecnologia', null);
 
     const rutasAutorizadas = loginData ? listadoRutas.filter(ruta => {
-        if (ruta.roles && ruta.roles.length) return ruta.roles.includes(loginData.usuario.rol);
+        if (ruta.roles && ruta.roles.length) return ruta.roles.includes(loginData.usuario.rol_idrol);
         return true;
     }) : [];
 
