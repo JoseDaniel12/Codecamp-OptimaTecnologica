@@ -52,10 +52,10 @@ function Ordenes() {
 
     return (
         <>
-            <Grid container spacing={3}>
+            <Grid container columnSpacing={2} rowSpacing={2}>
                 {
                     ordenes.map(orden => (
-                        <Grid size={{ sm: 12, md: 6 }} key={orden.idOrdenes}>
+                        <Grid size={{ sm: 12, md: 6 }} key={orden.idOrden}>
                             <Orden key={orden.idOrdenes} orden={orden} />
                         </Grid>
                     ))

@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Chip, Button, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Category, AttachMoney, Inventory } from '@mui/icons-material';
+import Edit from '@mui/icons-material/Edit';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import estados from '@/types/estados';
 import  { formatFecha } from '@/utils/formatters';
 import Contador from '@/Components/productos/Contador';
@@ -26,6 +27,7 @@ function Producto({ producto }) {
             return (
                 <Button
                     variant='outlined' color='primary'
+                    startIcon={<Edit />}
                     fullWidth
                     onClick={() => navigate(`/productos/editar/${producto.idProductos}`)}
                 >
@@ -43,6 +45,7 @@ function Producto({ producto }) {
         return (
             <Button 
                 variant='contained' color='success' fullWidth
+                startIcon={<AddShoppingCartIcon />}
                 onClick={() => agregarProducto(producto)}
                 disabled={producto.stock === 0}
             >

@@ -19,10 +19,10 @@ function Orden({ orden }) {
     };
 
     return (
-        <Card sx={{ mt: 3 }}>
+        <Card>
             <CardContent>
                 <Grid container spacing={1}>
-                    <Grid item xs={12}>
+                    <Grid xs={12}>
                         <Box display='flex' alignItems='center'>
                             <IconWrapper>
                                 <CalendarToday />
@@ -30,7 +30,7 @@ function Orden({ orden }) {
                             <Typography variant="body2">{formatDate(orden.fecha_creacion)}</Typography>
                         </Box>
                     </Grid>
-                    <Grid item size={12}>
+                    <Grid size={12}>
                         <Box display='flex' alignItems='center'>
                             <IconWrapper>
                                 <Person />
@@ -38,7 +38,7 @@ function Orden({ orden }) {
                             <Typography variant="body2">{orden.nombre_completo}</Typography>
                         </Box>
                     </Grid>
-                    <Grid item size={12}>
+                    <Grid size={12}>
                         <Box display='flex' alignItems='center'>
                             <IconWrapper>
                                 <LocationOn />
@@ -46,7 +46,7 @@ function Orden({ orden }) {
                             <Typography variant="body2">{orden.direccion}</Typography>
                         </Box>
                     </Grid>
-                    <Grid item size={12}>
+                    <Grid size={12}>
                         <Box display='flex' alignItems='center'>
                             <IconWrapper>
                                 <Phone />
@@ -54,7 +54,7 @@ function Orden({ orden }) {
                             <Typography variant="body2">{orden.telefono}</Typography>
                         </Box>
                     </Grid>
-                    <Grid item size={12}>
+                    <Grid size={12}>
                         <Box display='flex' alignItems='center'>
                             <IconWrapper>
                                 <LocalShipping />
@@ -62,7 +62,7 @@ function Orden({ orden }) {
                             <Typography variant="body2">{orden.fecha_entrega}</Typography>
                         </Box>
                     </Grid>
-                    <Grid item size={12}>
+                    <Grid size={12}>
                         <Box display='flex' alignItems='center'>
                             <IconWrapper>
                                 <AttachMoney />
@@ -70,7 +70,7 @@ function Orden({ orden }) {
                             <Typography variant="body2">${orden.total_orden}</Typography>
                         </Box>
                     </Grid>
-                    <Grid item size={12}>
+                    <Grid size={12}>
                         <Box display='flex' alignItems='center'>
                             <IconWrapper>
                                 <CheckCircle />

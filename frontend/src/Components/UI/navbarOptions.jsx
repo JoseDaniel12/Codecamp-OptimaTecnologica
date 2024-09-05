@@ -1,3 +1,5 @@
+import rolesUsuario from '@/types/rolesUsuario';
+
 const navbarOptions = [
     {
         label: 'Productos',
@@ -6,6 +8,11 @@ const navbarOptions = [
     {
         label: 'Ordenes',
         path: 'ordenes',
+    },
+    {
+        label: 'Categorias',
+        path: 'categorias',
+        roles: [rolesUsuario.ADMIN],
     }
 ];
 

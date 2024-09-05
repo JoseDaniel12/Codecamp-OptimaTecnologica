@@ -17,7 +17,7 @@ const crearCategoria = async (req, res) => {
             nombre
         }; 
         const categoria = await categoriasProcedures.crearCategoria(datosCategoria);
-        res.status(201).json(categoria);
+        res.status(201).json({ categoria});
     } catch (error) {
         if (process.env.NODE_ENV === 'DEV') console.error(error);
         res.status(500).json({ error: error.message });

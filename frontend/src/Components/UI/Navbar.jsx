@@ -26,8 +26,12 @@ function Navbar() {
     const navigate = useNavigate();
 
     const rutasAutorizadas = navbarOptions.filter(ruta => {
-        if (!ruta.roles) return true;
-        return ruta.roles.includes(usuario.rol);
+        if (ruta.roles?.length && ruta.roles.includes(usuario.rol_idrol)) {
+            return true;
+        } else if (!ruta.roles) {
+            return true;
+        }
+        return false;
     });
 
     const [anchorElNav, setAnchorElNav] = useState(null);

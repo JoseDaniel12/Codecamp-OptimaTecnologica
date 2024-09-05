@@ -107,20 +107,19 @@ function EditarProducto() {
     };
 
     useEffect(() => {
-        fetchWithAuth(`/productos/producto/${idProducto}`)
-            .then(response => response.json())
-            .then(data => {
-                const producto = data.producto;
-                console.log(producto);
-                if (producto.foto) setSelectedImageURL(`data:image/png;base64,${producto.foto}`);
-                form.reset({ ...producto });
-            })
-            .catch(error => console.error(error));
-
         fetchWithAuth('/categorias')
             .then(response => response.json())
             .then(data => {
                 setCategorias(data.categorias);
+            })
+            .catch(error => console.error(error));
+
+        fetchWithAuth(`/productos/producto/${idProducto}`)
+            .then(response => response.json())
+            .then(data => {
+                const producto = data.producto;
+                if (producto.foto) setSelectedImageURL(`data:image/png;base64,${producto.foto}`);
+                form.reset({ ...producto });
             })
             .catch(error => console.error(error));
     }, []);

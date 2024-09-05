@@ -7,6 +7,7 @@ import Contador from '@/Components/productos/Contador';
 import useCarrito from '@/hooks/useCarrito';
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import { useToast } from '@/hooks/useToast';
+import { RemoveShoppingCart, ShoppingBag } from '@mui/icons-material';
 
 const Carrito = () => {
     const fetchWithAuth = useFetchWithAuth();
@@ -73,7 +74,7 @@ const Carrito = () => {
                                 <TableCell>Prodcuto</TableCell>
                                 <TableCell>Precio</TableCell>
                                 <TableCell>Cantidad</TableCell>
-                                <TableCell>Total</TableCell>
+                                <TableCell>Subtotal</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
@@ -81,7 +82,10 @@ const Carrito = () => {
                             {
                                 carrito.map(producto => (
                                     <TableRow key={producto.idProductos} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell>{producto.nombre}</TableCell>
+                                        <TableCell sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
+                                            <img height={50} width={60} src={producto.foto ? `data:image/png;base64,${producto.foto}` : 'https://via.placeholder.com/200'}/>
+                                            {producto.nombre}
+                                        </TableCell>
                                         <TableCell>{producto.precio}</TableCell>
                                         <TableCell>
                                             <Contador producto={producto} />
@@ -118,6 +122,7 @@ const Carrito = () => {
                         </Box>
                         <Button
                             variant="contained"
+                            startIcon={<ShoppingBag />}
                             fullWidth
                             sx={{
                                 backgroundColor: '#8DC63F',
@@ -132,6 +137,7 @@ const Carrito = () => {
                         </Button>
                         <Button
                             variant="contained"
+                            startIcon={<RemoveShoppingCart />}
                             fullWidth
                             sx={{
                                 backgroundColor: '#FF5C5C',
