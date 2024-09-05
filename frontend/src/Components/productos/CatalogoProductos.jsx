@@ -1,4 +1,5 @@
 import {  useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import Producto from '@/Components/productos/Producto';
 import { Box } from '@mui/system';
@@ -11,6 +12,7 @@ function CatalogoProductos() {
     const { loginData: {
         usuario: { rol_idrol }
     } } = useAuth();
+    const navigate = useNavigate();
     const fetchWithAuth = useFetchWithAuth();
     const [productos, setProductos] = useState([]);
 
@@ -19,7 +21,7 @@ function CatalogoProductos() {
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    //console.error(data.error);
+                    console.error(data.error);
                     return;
                 } else {
                     setProductos(data.productos);
@@ -32,7 +34,9 @@ function CatalogoProductos() {
             {
                 rol_idrol === rolesUsuario.ADMIN && (
                     <Box display='flex' justifyContent='end' sx={{ mb: 3 }}>
-                        <Button variant='contained' color='success' >Nuevo Producto</Button>
+                        <Button variant='contained' color='success' onClick={() => navigate('/crear-producto')}>
+                            Crear Producto
+                        </Button>
                     </Box>
                 )
             }

@@ -16,6 +16,7 @@ import { Tooltip } from '@mui/material';
 import { useAuth } from '@/hooks/useAuth';
 import useCarrito from '@/hooks/useCarrito';
 import navbarOptions from './navbarOptions';
+import rolesUsuario from '@/types/rolesUsuario';
 
 
 function Navbar() {
@@ -107,13 +108,17 @@ function Navbar() {
                 </Box>
 
                 <Box sx={{ml: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                    <Tooltip title='Carrito de Compras'>
-                        <IconButton>
-                            <Badge badgeContent={cantProductos} color='error' onClick={() => navigate('/carrito')}>
-                                <LocalGroceryStoreIcon fontSize='large'/>
-                            </Badge>
-                        </IconButton>
-                    </Tooltip>
+                    {
+                        usuario.rol_idrol === rolesUsuario.CLIENTE && (
+                            <Tooltip title='Carrito de Compras'>
+                                <IconButton>
+                                    <Badge badgeContent={cantProductos} color='error' onClick={() => navigate('/carrito')}>
+                                        <LocalGroceryStoreIcon fontSize='large'/>
+                                    </Badge>
+                                </IconButton>
+                            </Tooltip>
+                        )
+                    }
 
                     <Typography 
                         variant='h6' 

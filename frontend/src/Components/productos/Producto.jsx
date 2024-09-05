@@ -24,16 +24,13 @@ function Producto({ producto }) {
     const renderAccionesProducto = () => {
         if (usuario.rol_idrol === rolesUsuario.ADMIN) {
             return (
-                <Box display='flex' justifyContent='space-between' mt={2}>
-                    <Button variant='outlined' color='primary'
-                        onClick={() => navigate(`/productos/editar/${producto.idProductos}`)}
-                    >
-                        Editar
-                    </Button>
-                    <Button variant='outlined' color='error'>
-                        Eliminar
-                    </Button>
-                </Box>
+                <Button
+                    variant='outlined' color='primary'
+                    fullWidth
+                    onClick={() => navigate(`/productos/editar/${producto.idProductos}`)}
+                >
+                    Editar
+                </Button>
             );
         } 
 
@@ -56,7 +53,7 @@ function Producto({ producto }) {
 
 
     return (
-        <Card sx={{ width: 270, height: 490 }}>
+        <Card sx={{ width: 270, minHeight: 490 }}>
             <CardMedia
                 component='img'
                 height='200'
@@ -78,16 +75,20 @@ function Producto({ producto }) {
                         </Box>
                     </Grid>
 
-                    <Grid size={12} display='flex' alignItems='center' gap={1}>
-                        <Typography variant='body2' color='text.secondary'>
-                            Código: {producto.codigo}
-                        </Typography>
-                        <Chip 
-                            label={estaActivo? 'Activo' : 'Inactivo'}
-                            color={estaActivo ? 'success' : 'error'}
-                            size='small'
-                        />
-                    </Grid>
+                    {
+                        usuario.rol_idrol === rolesUsuario.ADMIN && (
+                            <Grid size={12} display='flex' alignItems='center' gap={1}>
+                                <Typography variant='body2' color='text.secondary'>
+                                    Código: {producto.codigo}
+                                </Typography>
+                                <Chip 
+                                    label={estaActivo? 'Activo' : 'Inactivo'}
+                                    color={estaActivo ? 'success' : 'error'}
+                                    size='small'
+                                />
+                            </Grid>
+                        )
+                    }
 
                     <Grid size={12}>
                         <Box display='flex' alignItems='center' >

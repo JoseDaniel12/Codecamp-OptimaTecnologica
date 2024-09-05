@@ -11,6 +11,8 @@ const useFetchWithAuth = () => {
             ...options.headers
         };
 
+        if (options.formData) delete headers['Content-Type'];
+
         if (access_token) headers.access_token = access_token;
 
         options = {

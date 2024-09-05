@@ -1,6 +1,7 @@
 import React from 'react'
 import Grid from '@mui/material/Grid2';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Card, CardContent, Typography, Button, Box } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 import Contador from '@/Components/productos/Contador';
 
 import useCarrito from '@/hooks/useCarrito';
@@ -88,7 +89,7 @@ const Carrito = () => {
                                         <TableCell>{producto.precio * producto.cantidad}</TableCell>
                                         <TableCell>
                                             <Button onClick={() => quitarProducto(producto)}>
-                                                x
+                                                <ClearIcon />
                                             </Button>
                                         </TableCell>
                                     </TableRow>

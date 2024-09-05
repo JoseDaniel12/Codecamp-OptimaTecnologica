@@ -11,7 +11,8 @@ import rolesUsuario from '@/types/rolesUsuario';
 
 function DetallesOrden() {
     const location = useLocation();
-    let orden = location.state.orden;
+
+    const [orden, setOrden] = useState(location.state.orden);
 
     const { loginData: { usuario } } = useAuth();
 
@@ -52,8 +53,13 @@ function DetallesOrden() {
             const data = await response.json();
             if (response.ok) {
                 const ordenProcesada = data.orden;
-                orden.estados_idestados = ordenProcesada.estados_idestados;
-                orden.fecha_entrega = ordenProcesada.fecha_entrega;
+                setOrden(prev => {
+                    return {
+                        ...prev,
+                        estados_idestados: ordenProcesada.estados_idestados,
+                        fecha_entrega: ordenProcesada.fecha_entrega,
+                    };
+                });
                 toast.show({
                     title: 'Orden procesada',
                     message: 'La orden se ha procesado correctamente.',
@@ -165,7 +171,6 @@ function DetallesOrden() {
                                                 backgroundColor: orden.estados_idestados === estados.ENTREGADO ? '#85a458' : '#c16262',
                                                 color: 'white',
                                                 textAlign: 'center',
-                                                borderRadius: 1,
                                                 p: 1
                                             }}
                                         >

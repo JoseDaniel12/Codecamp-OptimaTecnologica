@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 import CatalogoProductos from '@/Components/productos/CatalogoProductos';
 import EditarProducto from '@/Components/productos/EditarProducto';
+import CrearProducto from '@/Components/productos/CrearProducto';
 import Ordenes from '@/Components/ordenes/Ordenes';
 
 function Rutas() {
@@ -38,7 +39,7 @@ function Rutas() {
                             )
                         }
                         <Route path='/productos/editar/:idProducto' element={<EditarProducto />} />
-
+                        <Route path='/crear-producto' element={<CrearProducto />} />
                     </Route>
                 )
             }

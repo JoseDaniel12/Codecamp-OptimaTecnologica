@@ -27,7 +27,6 @@ function Ordenes() {
             const response = await fetchWithAuth(url);
             const data = await response.json();
             if (response.ok) {
-                console.log(data.ordenes);
                 setOrdenes(data.ordenes);
             } else {
                 toast.show({
