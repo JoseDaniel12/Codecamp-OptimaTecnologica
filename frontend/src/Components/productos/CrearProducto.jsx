@@ -4,12 +4,14 @@ import { useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import  { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Box, Typography, Button, TextField, FormControl, FormHelperText, Select, InputLabel, MenuItem } from '@mui/material'
+import { Box, Typography, Button, TextField, FormControl, FormHelperText, Select, InputLabel, MenuItem, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid2'
 
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import { useToast } from '@/hooks/useToast';
 import { set } from 'date-fns';
+import { ArrowBack } from '@mui/icons-material';
 
 function CrearProducto() {
     const toast = useToast();
@@ -111,13 +113,27 @@ function CrearProducto() {
     }, []);
 
     return (
-        <Box width={800} backgroundColor='#f1f3f4' padding={2} borderRadius={1} mx='auto'>
-            <Typography align='center' component='h1' variant='h5' sx={{ mb: 1 }}>
-                Crear Producto
-            </Typography>
+        <Grid container maxWidth={800} backgroundColor='#f1f3f4' padding={2} borderRadius={1} mx='auto'>
+            <Grid size={12} mb={3}>
+                <Box>
+                    <IconButton
+                        variant='outlined'
+                        color='primary'
+                        onClick={() => navigate(-1)}
+                        sx={{ 
+                            position: 'absolute',
+                      }}
+                    >
+                        <ArrowBack />
+                    </IconButton>
+                </Box>
+                <Typography align='center' component='h1' variant='h5' sx={{ mb: 1 }}>
+                    Crear Producto
+                </Typography>
+            </Grid>
 
             <Grid container spacing={1}>
-                <Grid size={6} container rowSpacing={2} columnSpacing={1}>
+                <Grid size={{xs: 12, md: 6}} container rowSpacing={2} columnSpacing={1}>
                     <Grid size={12}>
                         <Controller
                             name='nombre'
@@ -257,7 +273,7 @@ function CrearProducto() {
                     </Grid>
                 </Grid>
 
-                <Grid size={6} >
+                <Grid size={{xs: 12, md: 6}}>
                     <input
                         accept='image/*'
                         style={{ display: 'none' }}
@@ -270,11 +286,11 @@ function CrearProducto() {
                             Cambiar Foto
                         </Button>
                     </label>
-                    <Box sx={{ maxWidth: '100%', overflow: 'hidden' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', maxWidth: '100%', overflow: 'hidden' }}>
                         <img 
-                            src={selectedImageURL || 'https://via.placeholder.com/200'}
+                            src={selectedImageURL || 'https://via.placeholder.com/300x200'}
                             alt='Imagen seleccionada'
-                            style={{ maxWidth: '100%', height: 'auto' }}
+                            style={{ width: '300px', height: '200px' }}
                         />
                     </Box>
                 </Grid>
@@ -285,13 +301,15 @@ function CrearProducto() {
                         fullWidth
                         variant='contained'
                         color='primary'
+                        startIcon={<AddIcon />}
                         onClick={handleSubmit(handleCrearProducto)}
+                        sx={{ mt: 2 }}
                     >
                         Crear
                     </Button>
                 </Grid>
             </Grid>
-        </Box>
+        </Grid>
     );
 }
 

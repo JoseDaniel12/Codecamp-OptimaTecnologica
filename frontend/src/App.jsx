@@ -3,10 +3,10 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import { AuthProvider } from './contexts/Auth.jsx';
-import { ToastProvider } from './contexts/Toast.jsx';
+import AuthProvider from '@/providers/AuthProvider';
+import { ToastProvider } from '@/contexts/Toast.jsx';
 import { CarritoProvider } from '@/contexts/Carrito';
-import Rutas from './rutas/Rutas.jsx';
+import Rutas from '@/rutas/Rutas.jsx';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         </CarritoProvider>
       </ToastProvider>
     </AuthProvider>
-  )
+  );
 }
 
 export default App;

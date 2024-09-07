@@ -19,9 +19,7 @@ function Rutas() {
             <Route path='/registro' element={<Registro />} />
             {
                 !loginData ? (
-                    <>
-                        <Route index element={<Login />} />
-                    </>
+                    <Route index element={<Login />} />
                 ) : (
                     <Route path='/' element={<Dashboard />}>
                         {

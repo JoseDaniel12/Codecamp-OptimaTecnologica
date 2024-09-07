@@ -22,7 +22,7 @@ const listadoRutas = [
         element: <Ordenes />,
     },
     {
-        path: 'detalles-orden',
+        path: 'detalles-orden/:idOrden',
         element: <DetallesOrden />,
     },
     {

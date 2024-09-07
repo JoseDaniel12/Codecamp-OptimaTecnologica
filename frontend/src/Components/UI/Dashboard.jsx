@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
-import Navbar from './Navbar';
+import Navbar from '@/Components/UI/Navbar';
 
 function Dashboard() {
     return (

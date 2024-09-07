@@ -4,6 +4,7 @@ import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import Producto from '@/Components/productos/Producto';
 import { Box } from '@mui/system';
 import Button from '@mui/material/Button';
+import { Add } from '@mui/icons-material';
 import Grid from '@mui/material/Grid2';
 import { useAuth } from '@/hooks/useAuth';
 import rolesUsuario from '@/types/rolesUsuario';
@@ -30,11 +31,14 @@ function CatalogoProductos() {
     }, []);
 
     return (
-        <>
+        <Box>
             {
                 rol_idrol === rolesUsuario.ADMIN && (
                     <Box display='flex' justifyContent='end' sx={{ mb: 3 }}>
-                        <Button variant='contained' color='success' onClick={() => navigate('/crear-producto')}>
+                        <Button 
+                            variant='contained' color='success' onClick={() => navigate('/crear-producto')}
+                            startIcon={<Add />}
+                        >
                             Crear Producto
                         </Button>
                     </Box>
@@ -42,13 +46,20 @@ function CatalogoProductos() {
             }
 
             <Grid container spacing={3}>
-                {productos.map(producto => (
-                    <Grid xs={12} sm={6} md={4} lg={3} key={producto.idProductos}>
-                        <Producto key={producto.id} producto={producto} />
-                    </Grid>
-                ))}
+                {
+                    productos.map(producto => (
+                        <Grid xs={12} sm={6} md={4} lg={3} key={producto.idProductos} sx={{
+                            margin: {
+                                xs: '0 auto',
+                                md: 0
+                            }
+                        }}>
+                            <Producto key={producto.idProductos} producto={producto} />
+                        </Grid>
+                    ))
+                }
             </Grid>
-        </>
+        </Box>
     );
 }
 

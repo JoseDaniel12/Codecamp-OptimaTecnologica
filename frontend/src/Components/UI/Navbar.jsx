@@ -92,7 +92,10 @@ function Navbar() {
                         }}
                     >
                         {rutasAutorizadas.map((ruta) => (
-                            <MenuItem key={ruta.label} onClick={() => {}}>
+                            <MenuItem key={ruta.label} onClick={() => {
+                                handleCloseNavMenu();
+                                navigate(ruta.path);
+                            }}>
                                 <Typography textAlign="center">{ruta.label}</Typography>
                             </MenuItem>
                         ))}
@@ -115,8 +118,8 @@ function Navbar() {
                     {
                         usuario.rol_idrol === rolesUsuario.CLIENTE && (
                             <Tooltip title='Carrito de Compras'>
-                                <IconButton>
-                                    <Badge badgeContent={cantProductos} color='error' onClick={() => navigate('/carrito')}>
+                                <IconButton onClick={() => navigate('/carrito')}>
+                                    <Badge badgeContent={cantProductos} color='error'>
                                         <LocalGroceryStoreIcon fontSize='large'/>
                                     </Badge>
                                 </IconButton>

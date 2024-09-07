@@ -1,21 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Chip, Button, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { Category, AttachMoney, Inventory } from '@mui/icons-material';
-import Edit from '@mui/icons-material/Edit';
+import { Category, AttachMoney, Inventory, Edit} from '@mui/icons-material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import estados from '@/types/estados';
-import  { formatFecha } from '@/utils/formatters';
 import Contador from '@/Components/productos/Contador';
 
-import useCarrito from '@/hooks/useCarrito';
 import { useAuth } from '@/hooks/useAuth';
+import useCarrito from '@/hooks/useCarrito';
 import rolesUsuario from '@/types/rolesUsuario';
-
+import estados from '@/types/estados';
+import formatFecha from '@/utils/formatters';
 
 function Producto({ producto }) {
-    const { carrito, agregarProducto } = useCarrito();
     const { loginData: { usuario } } = useAuth();
+    const { carrito, agregarProducto } = useCarrito();
     const navigate = useNavigate();
 
     const estaActivo = producto.estados_idestados === estados.ACTIVO;
@@ -61,7 +59,6 @@ function Producto({ producto }) {
                 component='img'
                 height='200'
                 image={producto.foto ? `data:image/png;base64,${producto.foto}` : 'https://via.placeholder.com/200'}
-           
             />
             <CardContent>
 

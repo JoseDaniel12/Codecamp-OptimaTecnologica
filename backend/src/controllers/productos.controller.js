@@ -72,7 +72,7 @@ const actualizarProducto = async (req, res) => {
         let producto = await productosProcedures.obtenerProductoPorId(idProducto);
         if (!producto) throw new Error('Producto no encontrado.');
 
-        let foto = req.file?.buffer || producto.foto || null;
+        const foto = req.file?.buffer || null;
         producto = {
             ...producto,
             ...nuevosDatosProducto,

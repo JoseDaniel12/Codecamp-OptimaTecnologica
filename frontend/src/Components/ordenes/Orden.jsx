@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import { CalendarToday, Person, LocationOn, Phone, Email, LocalShipping, AttachMoney, CheckCircle } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuth } from '@/hooks/useAuth';
+
 function Orden({ orden }) {
     const navigate = useNavigate();
 
@@ -81,9 +83,7 @@ function Orden({ orden }) {
                 </Grid>
             </CardContent>
             <CardActions sx={{ display: 'flex', justifyContent: 'center'}}>
-                <Button size="small" onClick={() => navigate(`/detalles-orden`, {
-                    state: { orden }
-                })}>
+                <Button size="small" onClick={() => navigate(`/detalles-orden/${orden.idOrden}`)}>
                     Ver Detalles
                 </Button>
             </CardActions>

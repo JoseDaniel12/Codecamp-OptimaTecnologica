@@ -18,18 +18,18 @@ function CestionCategorias() {
     
 
     const columns = [
-        { field: 'nombre', headerName: 'Nombre' },
+        { field: 'nombre', headerName: 'Nombre', width: 200 },
         { field: 'estado', headerName: 'Estado' },
-        { field: 'cantProductosActivos', headerName: 'Cant. Productos Activos' },
+        { field: 'cantProductosActivos', headerName: 'Cant. Productos Activos', width: 180 },
         { 
+            field: 'acciones',
             headerName: 'Acciones', 
-            renderCell: ({ row }) => (
+            renderCell: ({row}) => (
                 <IconButton
+                    key={`edit-${row.idCategoriaProductos}`}
                     variant="contained"
                     size="small"
-                    onClick={() => {
-                        setCategoriaPorEditar(row);
-                    }}
+                    onClick={() => setCategoriaPorEditar(row)}
                 >
                     <Edit />
                 </IconButton>
@@ -60,24 +60,23 @@ function CestionCategorias() {
             .then(res => res.json())
             .then (data => {
                 const categorias = data.categorias;
-                categorias.map(categoria => {
-                    categoria.id = categoria.idCategoriaProductos;
-                    return categoria;
+                const categoriasConId = categorias.map(categoria => {
+                    return { ...categoria, id: categoria.idCategoriaProductos}
                 });
-                setCategorias(categorias);
+                setCategorias(categoriasConId);
             })
             .catch(err => {
                 toast.show({
                     title: 'Error al obtener las categorias',
                     message: err.message,
-                    type: 'error',
+                    severity: 'error',
                 });
             });
     }, [])
 
     return (
         <Grid container spacing={2}>
-            <Grid size={{xs: 12, md:4 }}>
+            <Grid size={{xs: 12, md: 5 }}>
                 {
                     categoriaPorEditar ? (
                         <EditarCategoria
@@ -93,12 +92,12 @@ function CestionCategorias() {
                 }
 
             </Grid>
-            <Grid size={{ xs: 12, md:8 }}>
-                <Paper>
+            <Grid size={{ xs: 12, md: 7 }}>
+                <Paper style={{ height: 470, width: '100%', overflow: 'auto' }}>
                     <DataGrid
                         rows={categorias}
                         columns={columns}
-                        initialState={{ pagination: { paginationModel: { page: 0, pageSize: 5 } } }}
+                        initialState={{ pagination: { paginationModel: { page: 0, pageSize: 10 } } }}
                         pageSizeOptions={[5, 10]}
                     />
                 </Paper>

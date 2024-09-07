@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Card, CardContent, Typography, Button, Box, CardActionArea } from '@mui/material';
-import { LocalShipping, Block } from '@mui/icons-material';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Card, CardContent, Typography, Button, Box, CardActionArea } from '@mui/material';
+import { ArrowBack, LocalShipping, Block } from '@mui/icons-material';
 import Grid from '@mui/material/Grid2';
 
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
@@ -11,9 +11,10 @@ import estados from '@/types/estados'
 import rolesUsuario from '@/types/rolesUsuario';
 
 function DetallesOrden() {
-    const location = useLocation();
+    const navigate = useNavigate();
+    const { idOrden } = useParams();
 
-    const [orden, setOrden] = useState(location.state.orden);
+    const [orden, setOrden] = useState({});
 
     const { loginData: { usuario } } = useAuth();
 
@@ -24,7 +25,7 @@ function DetallesOrden() {
 
     const obtenerDetallesOrden = async () => {
         try {
-            const response = await fetchWithAuth(`/ordenes/orden/${orden.idOrden}/detalles`);
+            const response = await fetchWithAuth(`/ordenes/orden/${idOrden}/detalles`);
             const data = await response.json();
             if (response.ok) {
                 setDetalles(data.detallesOrden);
@@ -117,15 +118,57 @@ function DetallesOrden() {
         );
     };
 
+    const obtenerDatosOrden = async () => {
+        try {
+            const response = await fetchWithAuth(`/ordenes/orden/${idOrden}`);
+            const data = await response.json();
+            if (response.ok) {
+                setOrden(data.orden);
+            } else {
+                toast.show({
+                    title: 'Error al obtener los detalles de la orden',
+                    message: data.error,
+                    type: 'error',
+                });
+            }
+        } catch (error) {
+            toast.show({
+                title: 'Error al obtener los detalles de la orden',
+                message: error.message,
+                type: 'error',
+            });
+        }
+    }
+
 
 
     useEffect(() => {
+        obtenerDatosOrden();
         obtenerDetallesOrden();
     }, []);
 
     return (
         <Grid container spacing={2}>
-            <Grid size={{ sm: 12, md: 8 }}>
+
+            <Grid size={12}>
+                <Box>
+                    <IconButton
+                        variant='outlined'
+                        color='primary'
+                        onClick={() => navigate(-1)}
+                        sx={{ 
+                            position: 'absolute',
+                      }}
+                    >
+                        <ArrowBack />
+                    </IconButton>
+                </Box>
+                <Typography align='center' component='h1' variant='h5' sx={{ mb: 1 }}>
+                    Detalles de Orden
+                </Typography>
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 8 }}>
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
@@ -157,8 +200,8 @@ function DetallesOrden() {
             </Grid>
 
             
-            <Grid size={{ sm: 12, md: 4 }}>
-                <Card sx={{ maxWidth: 300 }}>
+            <Grid size={{ xs: 12, md: 4 }}>
+                <Card>
                     <CardContent>
                         <Typography variant="h6" gutterBottom>
                             Resumen de la Orden

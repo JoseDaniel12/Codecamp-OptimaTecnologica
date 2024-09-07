@@ -1,4 +1,3 @@
-const { obtenerDetallesOrden } = require('../../controllers/ordenes.controller');
 const sqlServerConn = require('../sequelize/sqlServerConnection');
 
 const ordenesProcedures = {
