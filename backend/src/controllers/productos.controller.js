@@ -2,6 +2,7 @@ const tiposEstado = require('../types/estados');
 const estadosProcedures = require('../database/procedures/estados.procedures');
 const productosProcedures = require('../database/procedures/productos.procedures');
 const categoriasProcedures = require('../database/procedures/categorias.procedures');
+const rolesUsuario = require('../types/rolesUsuario');
 
 
 const crearProducto = async (req, res) => {
@@ -29,11 +30,13 @@ const crearProducto = async (req, res) => {
 
 const obtenerProductos = async (req, res) => {
     try {
-        const { idEstado, idCategoria } = req.query;
+        const { idCategoria } = req.query;
         let productos = await productosProcedures.obtenerProductos();
-        if (idEstado) {
-            productos = productos.filter(producto => producto.estados_idestados === parseInt(idEstado));
+
+        if (req._usuario.rol_idrol === rolesUsuario.CLIENTE) {
+            productos = productos.filter(producto => producto.estados_idestados === tiposEstado.ACTIVO);
         }
+    
         if (idCategoria) {
             productos = productos.filter(producto => producto.CategoriaProductos_idCategoriaProductos === parseInt(idCategoria));
         }
@@ -69,8 +72,7 @@ const actualizarProducto = async (req, res) => {
         let producto = await productosProcedures.obtenerProductoPorId(idProducto);
         if (!producto) throw new Error('Producto no encontrado.');
 
-        let foto = req.file?.buffer;
-        foto = foto || Buffer.from(producto.foto, 'base64');
+        const foto = req.file?.buffer || null;
         producto = {
             ...producto,
             ...nuevosDatosProducto,
@@ -79,7 +81,7 @@ const actualizarProducto = async (req, res) => {
 
         const estado = await estadosProcedures.obtenerEstadoPorId(nuevosDatosProducto.estados_idestados);
         if (!estado) return res.status(400).send({ error: 'El estados_idestados no es válido.' });
-        if (![tiposEstado.ACTIVO, tiposEstado.INACTIVO].includes(estado.nombre)) {
+        if (![tiposEstado.ACTIVO, tiposEstado.INACTIVO].includes(estado.idestados)) {
             return res.status(400).send({ error: 'El estados_idestados no es válido.' });
         }
 

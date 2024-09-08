@@ -4,7 +4,7 @@ GO
 CREATE OR ALTER PROCEDURE ObtenerCategorias
 AS
 BEGIN
-    SELECT * FROM viewCategoriaProductos;
+    SELECT * FROM viewCategoriaProductos ORDER BY fecha_creacion DESC;
 END;
 
 GO

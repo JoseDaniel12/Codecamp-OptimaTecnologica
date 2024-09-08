@@ -39,7 +39,12 @@ CREATE OR ALTER VIEW viewCategoriaProductos
 AS
 SELECT
     cp.*,
-    e.nombre AS estado
+    e.nombre AS estado,
+    (
+        SELECT COUNT(*)
+        FROM Productos AS p
+        WHERE p.CategoriaProductos_idCategoriaProductos = cp.idCategoriaProductos
+    ) AS cantProductosActivos
 FROM CategoriaProductos AS cp
 LEFT JOIN estados AS e ON cp.estados_idestados = e.idestados;
 

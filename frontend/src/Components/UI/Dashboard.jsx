@@ -1,15 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
-import Navbar from './Navbar';
+import Navbar from '@/Components/UI/Navbar';
 
 function Dashboard() {
     return (
-        <div>
+        <>
             <Navbar/>
-            <Container sx={{backgroundColor: "green"}}>
+            <Container sx={{ paddingTop: 2,  paddingBottom: 4 }}>
                 <Outlet />
             </Container>
-        </div>
+        </>
     );
 }
 

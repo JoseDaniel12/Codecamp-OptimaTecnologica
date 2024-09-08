@@ -31,7 +31,7 @@ const actualizarProductoReqChecks = [
     check('precio').isFloat({ min: 0 }).withMessage('El precio debe ser un número positivo.'),
     validateAtributes
 ];
-router.put('/producto/:idProducto', [validateToken([rolesUsuario.ADMIN]), upload.single('foto'), actualizarProductoReqChecks], productosController.actualizarProducto);
+router.put('/producto/:idProducto', [validateToken(), upload.single('foto'), actualizarProductoReqChecks], productosController.actualizarProducto);
 
 router.patch('/darBaja/producto/:idProducto', validateToken([rolesUsuario.ADMIN]), productosController.darDeBajaProducto);
 

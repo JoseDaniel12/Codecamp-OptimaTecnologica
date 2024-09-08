@@ -83,7 +83,7 @@ CREATE OR ALTER PROCEDURE ActualizarProducto
     @stock FLOAT,
     @estados_idestados INT,
     @precio FLOAT,
-    @foto VARBINARY(MAX)
+    @foto VARBINARY(MAX) = NULL
 AS
 BEGIN
     UPDATE Productos
@@ -96,7 +96,7 @@ BEGIN
         stock = @stock,
         estados_idestados = @estados_idestados,
         precio = @precio,
-        foto = @foto
+        foto = ISNULL(@foto, foto)
     WHERE idProductos = @idProductos;
 
     SELECT * FROM viewProducto WHERE idProductos = @idProductos;

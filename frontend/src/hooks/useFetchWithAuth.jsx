@@ -5,14 +5,15 @@ const useFetchWithAuth = () => {
     const { loginData } = useAuth();
     const access_token = loginData?.access_token;
 
-    return async (path, options) => {
-   
+    return async (path, options = {}) => {   
         const headers = {
             ...requestSettings.headers,
             ...options.headers
         };
 
-        if (access_token) headers.Authorization = access_token;
+        if (options.formData) delete headers['Content-Type'];
+
+        if (access_token) headers.access_token = access_token;
 
         options = {
             ...requestSettings,

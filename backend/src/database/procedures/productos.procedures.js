@@ -92,6 +92,7 @@ const productosProcedures = {
     },
 
     actualizarProducto: async (datos) => {
+        datos.foto = Buffer.isBuffer(datos.foto)? datos.foto : null;
         try {
             const query = `
                 EXEC ActualizarProducto

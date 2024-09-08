@@ -13,7 +13,7 @@ const crearUsuarioReqChecks = [
     check('direccion').notEmpty().withMessage('La dirección es requerida.'),
     check('password').notEmpty().withMessage('La contraseña es requerida.'),
     check('telefono').notEmpty().withMessage('El teléfono es requerido.'),
-    check('fecha_nacimiento').isDate().withMessage('La fecha de nacimiento no es válida.'),
+    // check('fecha_nacimiento').isDate().withMessage('La fecha de nacimiento no es válida.'),
     validateAtributes
 ];
 router.post('/usuario', crearUsuarioReqChecks, usuariosController.crearUsuario);

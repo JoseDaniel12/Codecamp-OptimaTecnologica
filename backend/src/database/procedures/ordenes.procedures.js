@@ -103,6 +103,25 @@ const ordenesProcedures = {
         }
     },
 
+    obtenerDetallesOrden: async (idOrden) => {
+        try {
+            let query = `EXEC ObtenerDetallesOrden @idOrden = :idOrden;`;
+            let detallesOrden = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    idOrden: idOrden
+                }
+            });
+            detallesOrden = detallesOrden.map(d => {
+                if (d.foto) d.foto = Buffer.from(d.foto).toString('base64');
+                return d;
+            });
+            return detallesOrden;
+        } catch (error) {
+            throw new Error(`Error al obtener detalles de orden. \n${error.message}`);
+        }
+    },
+
     actualizarOrden: async (datos) => {
         try {
             let query = `
@@ -150,6 +169,22 @@ const ordenesProcedures = {
             return ordenes;
         } catch (error) {
             throw new Error(`Error al dar de baja orden por id. \n${error.message}`);
+        }
+    },
+
+    rechazarOrdenPorId: async (idOrden) => {
+        try {
+            let query = `EXEC RecharzarOrden @idOrden = :idOrden;`;
+            const response = await sqlServerConn.query(query, {
+                type: sqlServerConn.QueryTypes.SELECT,
+                replacements: {
+                    idOrden: idOrden
+                }
+            });
+            const orden = response[0] || null;
+            return orden;
+        } catch (error) {
+            throw new Error(`Error al rechazar orden por id. \n${error.message}`);
         }
     },
 

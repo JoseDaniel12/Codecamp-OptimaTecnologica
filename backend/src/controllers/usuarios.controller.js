@@ -1,3 +1,4 @@
+const { encrypt } = require('../helpers/handleBcrypt');
 const tiposEstado = require('../types/estados');
 const usuariosProcedures = require('../database/procedures/usuarios.procedures');
 const rolesProcedures = require('../database/procedures/roles.procedures');
