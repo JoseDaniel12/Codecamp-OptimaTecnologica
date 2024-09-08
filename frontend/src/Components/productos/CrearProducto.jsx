@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import  { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -10,7 +9,6 @@ import Grid from '@mui/material/Grid2'
 
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import { useToast } from '@/hooks/useToast';
-import { set } from 'date-fns';
 import { ArrowBack } from '@mui/icons-material';
 
 function CrearProducto() {
@@ -23,12 +21,12 @@ function CrearProducto() {
     const [foto, setFoto] = useState(null);
 
     const schema = yup.object().shape({
-        CategoriaProductos_idCategoriaProductos: yup.number().positive().required('Categoria requerida'),
+        CategoriaProductos_idCategoriaProductos: yup.number().positive().transform(value => isNaN(value) ? undefined : value).required('Categoria requerida'),
         nombre: yup.string().required('Nombre requerido'),
         marca: yup.string().required('Marca Requerida'),
         codigo: yup.string().required('Codigo requerido'),
-        stock: yup.number().required('Stock requerido'),
-        precio: yup.number().required('Precio requerido')
+        stock: yup.number().transform(value => isNaN(value) ? undefined : value).required('Stock requerido'),
+        precio: yup.number().transform(value => isNaN(value) ? undefined : value).required('Precio requerido')
     });
 
     const form = useForm({
@@ -288,9 +286,9 @@ function CrearProducto() {
                     </label>
                     <Box sx={{ display: 'flex', justifyContent: 'center', maxWidth: '100%', overflow: 'hidden' }}>
                         <img 
-                            src={selectedImageURL || 'https://via.placeholder.com/300x200'}
+                            src={selectedImageURL || 'https://via.placeholder.com/270x200'}
                             alt='Imagen seleccionada'
-                            style={{ width: '300px', height: '200px' }}
+                            style={{ width: 270, height: 200 }}
                         />
                     </Box>
                 </Grid>

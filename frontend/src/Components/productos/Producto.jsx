@@ -55,13 +55,12 @@ function Producto({ producto }) {
 
     return (
         <Card sx={{ width: 270, minHeight: 490 }}>
-            <CardMedia
+            <img
                 component='img'
-                height='200'
-                image={producto.foto ? `data:image/png;base64,${producto.foto}` : 'https://via.placeholder.com/200'}
+                style={{ width: 270, height: 200, boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}
+                src={producto.foto ? `data:image/png;base64,${producto.foto}` : 'https://via.placeholder.com/270x200'}
             />
             <CardContent>
-
                 <Grid container spacing={1} mb={1}>
                     <Grid size={12} >
                         <Typography gutterBottom variant='h5' component='span'>

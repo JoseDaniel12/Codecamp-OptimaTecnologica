@@ -1,10 +1,11 @@
-import { Card, CardContent, CardHeader, Typography, Box, CardActions, Button } from '@mui/material';
+import { Card, CardContent, CardHeader, Typography, Box, CardActions, Button, Chip } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
-import { CalendarToday, Person, LocationOn, Phone, Email, LocalShipping, AttachMoney, CheckCircle } from '@mui/icons-material';
+import { CalendarToday, Person, LocationOn, Phone, Email, LocalShipping, AttachMoney, CheckCircle, ThumbDown } from '@mui/icons-material';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/hooks/useAuth';
+import estados from '@/types/estados';
 
 function Orden({ orden }) {
     const navigate = useNavigate();
@@ -19,6 +20,18 @@ function Orden({ orden }) {
         const date = new Date(dateString);
         return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
     };
+
+    const renderEstado = () => {
+        switch (orden.estados_idestados) {
+            case estados.CONFIRMADO:
+                return <Chip label="Confirmado" color="warning"  icon={<HourglassTopIcon fontSize='small' />}/>;
+            case estados.ENTREGADO:
+                return <Chip label="Entregado" color="success" icon={<CheckCircle />} />;
+            case estados.RECHAZADO:
+                return <Chip label="Rechazado" color="error" icon={<ThumbDown fontSize='small'/>} />;
+        }
+
+    }
 
     return (
         <Card>
@@ -61,7 +74,7 @@ function Orden({ orden }) {
                             <IconWrapper>
                                 <LocalShipping />
                             </IconWrapper>
-                            <Typography variant="body2">{orden.fecha_entrega}</Typography>
+                            <Typography variant="body2">{orden.fecha_entrega || 'Sin Entregar'}</Typography>
                         </Box>
                     </Grid>
                     <Grid size={12}>
@@ -74,10 +87,7 @@ function Orden({ orden }) {
                     </Grid>
                     <Grid size={12}>
                         <Box display='flex' alignItems='center'>
-                            <IconWrapper>
-                                <CheckCircle />
-                            </IconWrapper>
-                            <Typography variant="body2">{orden.estado}</Typography>
+                            {renderEstado()}
                         </Box>
                     </Grid>
                 </Grid>

@@ -76,7 +76,7 @@ BEGIN
         fecha_entrega DATE,
         total_orden FLOAT DEFAULT 0,
 
-        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios) ON DELETE SET NULL,
+        FOREIGN KEY (usuarios_idusuarios) REFERENCES usuarios(idusuarios) ON DELETE CASCADE,
         FOREIGN KEY (estados_idestados) REFERENCES estados(idestados) ON DELETE SET NULL
     );
 END;
@@ -114,7 +114,7 @@ BEGIN
         precio FLOAT DEFAULT 0,
         subtotal FLOAT DEFAULT 0,
 
-        FOREIGN KEY (Orden_idOrden) REFERENCES Orden(idOrden) ON DELETE SET NULL,
+        FOREIGN KEY (Orden_idOrden) REFERENCES Orden(idOrden) ON DELETE CASCADE,
         FOREIGN KEY (Productos_idProductos) REFERENCES Productos(idProductos) ON DELETE SET NULL
     );
 END;

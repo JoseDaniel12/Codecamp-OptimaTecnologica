@@ -2,7 +2,7 @@
 
 Autor |
 ---
-José Daniel Alvarado Fajardo
+José Daniel Alvarado Fajardo |
 
 
 # Intrucciónes de Ejecución
@@ -46,6 +46,17 @@ npm install
 `
 
 5. Ejecutar el comando: 
+`
+npm run dev
+`
+
+## Frotend:
+1. Colocarse en el siguiente direcctorio:
+ `
+/frontend/src
+ `
+
+2. Ejecutar el comando: 
 `
 npm run dev
 `

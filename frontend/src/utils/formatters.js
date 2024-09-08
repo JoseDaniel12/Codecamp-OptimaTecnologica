@@ -1,8 +1,8 @@
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 
 
-export const formatFecha = (fecha, formato = 'dd/MM/yyyy') => {
-    return format(fecha, formato);
+export const formatFecha = (fecha, formato = 'DD/MM/YYYY') => {
+    return dayjs(fecha).format(formato);
 }
 
 export default formatFecha;

@@ -33,9 +33,9 @@ function EditarProducto() {
         nombre: yup.string().required('Nombre requerido'),
         marca: yup.string().required('Marca Requerida'),
         codigo: yup.string().required('Codigo requerido'),
-        stock: yup.number().required('Stock requerido'),
+        stock: yup.number().transform(value => isNaN(value) ? undefined : value).required('Stock requerido'),
         estados_idestados: yup.number().positive().required('Estado requerido'),
-        precio: yup.number().required('Precio requerido'),
+        precio: yup.number().transform(value => isNaN(value) ? undefined : value).required('Precio requerido'),
         CategoriaProductos_idCategoriaProductos: yup.number().positive().required('Categoria requerida')
     });
 
@@ -87,6 +87,8 @@ function EditarProducto() {
             const data = await response.json();
 
             if (response.ok) {
+                const productoEditado = data.producto;
+                form.reset(productoEditado);
                 toast.show({
                     severity: 'success',
                     title: 'Producto Editado',
@@ -330,9 +332,9 @@ function EditarProducto() {
                     </label>
                     <Box sx={{ display: 'flex', justifyContent: 'center', maxWidth: '100%', overflow: 'hidden' }}>
                         <img 
-                            src={selectedImageURL || 'https://via.placeholder.com/300x200'}
+                            src={selectedImageURL || 'https://via.placeholder.com/270x200'}
                             alt='Imagen seleccionada'
-                            style={{ width: '300px', height: '200px' }}
+                            style={{ width: 270, height: 200 }}
                         />
                     </Box>
                 </Grid>

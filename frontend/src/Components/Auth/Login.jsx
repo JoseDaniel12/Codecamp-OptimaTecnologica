@@ -1,23 +1,45 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import  { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
-import { Link, Typography } from '@mui/material';
 import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 
+import { useToast } from '@/hooks/useToast';
+
 function Login() {
     const { setLoginData } = useAuth();
+    const toast = useToast();
     const navigate = useNavigate();
     const fetchWithAuth = useFetchWithAuth();
 
-    const [correo, setCorreo] = useState('');
-    const [contrasenia, setContrasenia] = useState('');
+    const schema = yup.object().shape({
+        correo: yup.string().email('Formato de correo invalido.').required('Correo es requerido.'),
+        contrasenia: yup.string().required('Contraseña es requerida.'),
+    });
 
-    const handleLogin = async e => {
-        e.preventDefault();
+    const form = useForm({
+        defaultValues: {
+            correo: '',
+            contrasenia: '',
+        },
+        resolver: yupResolver(schema),
+        mode: 'onSubmit'
+    });
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = form;
+
+    const handleLogin = async (datos) => {
+        const { correo, contrasenia } = datos;
         const response = await fetchWithAuth('/autenticacion/login', {
             method: 'POST',
             body: JSON.stringify({ 
@@ -29,7 +51,12 @@ function Login() {
 
         if (!response.ok) {
             setLoginData(null);
-            console.log(response.error);
+            toast.show({
+                severity: 'error',
+                title: 'Error',
+                message: data.error,
+                life: 3000,
+            })
         } else {
             setLoginData(data);
             navigate('/');
@@ -53,7 +80,7 @@ function Login() {
                     Login
                 </Typography>
 
-                <Box component='form' onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
+                <Box sx={{ mt: 1 }}>
                     <TextField
                         required
                         fullWidth
@@ -63,7 +90,9 @@ function Login() {
                         label='Correo'
                         autoComplete='email'
                         autoFocus
-                        onChange={e => setCorreo(e.target.value)}
+                        {...register('correo')}
+                        error={!!errors.correo}
+                        helperText={errors.correo?.message}
                     />
                     <TextField
                         required
@@ -73,14 +102,15 @@ function Login() {
                         id='contrasenia'
                         name='contrasenia'
                         label='Contraseña'
-                        autoComplete='current-password'
-                        onChange={e => setContrasenia(e.target.value)}
+                        {...register('contrasenia')}
+                        error={!!errors.contrasenia}
+                        helperText={errors.contrasenia?.message}
                     />
                     <Button
-                        type='submit'
                         variant='contained'
                         fullWidth
                         sx={{ my: 2 }}
+                        onClick={handleSubmit(handleLogin)}
                     >
                         Iniciar Sesion
                     </Button>

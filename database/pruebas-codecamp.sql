@@ -9,9 +9,12 @@ SELECT * FROM Orden;
 SELECT * FROM Productos;
 SELECT * FROM OrdenDetalles;
 
-SELECT * FROM viewCategoriaProductos;
+UPDATE Productos SET foto = null;
+delete from orden;
+select * from estados;
+EXEC ObtenerDetallesOrden @idOrden=15;
 
-EXEC CrearOrdenPorIdUsuario @usuarios_idusuarios = 2;
+EXEC CrearOrdenPorIdUsuario @usuarios_idusuarios = 1;
 EXEC ObtenerOrdenes;
 
 

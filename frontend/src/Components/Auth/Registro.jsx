@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import  { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -30,7 +30,7 @@ function Registro() {
         nombre_completo: yup.string().required('El nombre es requerido'),
         correo_electronico: yup.string().email('El correo no es valido').required('El correo es requerido'),
         password: yup.string().required('La contraseña es requerida'),
-        rol_idrol: yup.number().required('El rol es requerido'),
+        rol_idrol: yup.number().transform(value => (isNaN(value)? undefined : value)).required('El rol es requerido'),
         direccion: yup.string().required('La dirección es requerida'),
         telefono: yup.string().required('El telefono es requerido'),
         fecha_nacimiento: yup.date('Fecha no valida').required('Fehca de nacimiento requerida')
@@ -107,7 +107,7 @@ function Registro() {
             </Typography>
 
             <Grid container rowSpacing={2} columnSpacing={1}>
-                <Grid item md={12}>
+                <Grid size={12}>
                     <Box>
                         <TextField
                             required
@@ -123,7 +123,7 @@ function Registro() {
                         />
                     </Box>
                 </Grid>
-                <Grid item md={12}>
+                <Grid size={12}>
                     <Box>
                         <TextField
                             required
@@ -138,7 +138,7 @@ function Registro() {
                         />
                     </Box>
                 </Grid>
-                <Grid item md={6}>
+                <Grid size={6}>
                     <Box>
                         <TextField
                             required
@@ -153,7 +153,7 @@ function Registro() {
                         />
                     </Box>
                 </Grid>
-                <Grid item sm={6} md={6}>
+                <Grid size={6}>
                     <Box>
                         <FormControl fullWidth error={!!errors.rol_idrol}>
                             <InputLabel id="demo-simple-select-label">Rol</InputLabel>
@@ -179,7 +179,7 @@ function Registro() {
                         </FormControl>
                     </Box>
                 </Grid>
-                <Grid item sm={12} md={12}>
+                <Grid size={12}>
                     <Box>
                         <TextField
                             required
@@ -194,7 +194,7 @@ function Registro() {
                         />
                     </Box>
                 </Grid>
-                <Grid item sm={6} md={6}>
+                <Grid size={6}>
                     <Box>
                         <TextField
                             required
@@ -209,7 +209,7 @@ function Registro() {
                         />
                     </Box>
                 </Grid>
-                <Grid item sm={6} md={6}>
+                <Grid size={6}>
                     <LocalizationProvider dateAdapter={ AdapterDayjs }>
                         <Controller
                             name='fecha_nacimiento'
@@ -230,18 +230,18 @@ function Registro() {
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid item sm={12} md={12}>
+                <Grid size={12}>
                     <Button
                         type='submit'
                         variant='contained'
                         fullWidth
-                        onClick={handleSubmit(handleRegistro,handleRegistro )}
+                        onClick={handleSubmit(handleRegistro)}
                         sx={{ mt: 1, }}
                     >
                         Registrarse
                     </Button>
                 </Grid>
-                <Grid item md={12} sx={{ display: 'flex', justifyContent: 'center'  }}>
+                <Grid size={12} sx={{ display: 'flex', justifyContent: 'center'  }}>
                     <Typography
                         component='a'
                         variant='body2'

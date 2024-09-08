@@ -4,6 +4,7 @@ import Dashboard from '@/components/UI/Dashboard';
 import Login from '@/components/Auth/Login';
 import Registro from '@/components/Auth/Registro';
 import rolesUsuario from '@/types/rolesUsuario';
+import NotFound from '@/Components/UI/NotFound';
 
 import { useAuth } from '@/hooks/useAuth';
 import CatalogoProductos from '@/Components/productos/CatalogoProductos';
@@ -37,7 +38,7 @@ function Rutas() {
                     </Route>
                 )
             }
-            <Route path='/*' element={<h1>404</h1>} />
+            <Route path='/*' element={<NotFound />} />
         </Routes>
     );
 }

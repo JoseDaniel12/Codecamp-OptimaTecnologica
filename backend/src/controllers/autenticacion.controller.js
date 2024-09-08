@@ -9,12 +9,12 @@ const login = async (req, res) => {
         const usuario = await usuariosProcedures.obtenerUsuarioPorCorreo(correo_electronico);
 
         if (!usuario) {
-            return res.status(404).send({ message: 'Usuario no encontrado' });
+            return res.status(404).send({ error: 'Usuario no encontrado' });
         } 
         
         const matchContrasenia = await compare(password, usuario.password);
         if (!matchContrasenia) {
-            return res.status(400).send({ message: 'Contraseña incorrecta' });
+            return res.status(400).send({ error: 'Contraseña incorrecta' });
         }
         
         delete usuario.password;

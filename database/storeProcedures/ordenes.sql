@@ -98,7 +98,8 @@ AS
 BEGIN
     SELECT
         od.*,
-        p.nombre AS producto
+        p.nombre AS producto,
+        p.foto AS foto
     FROM OrdenDetalles AS od
     LEFT JOIN Productos AS p ON od.Productos_idProductos = p.idProductos
     WHERE Orden_idOrden = @idOrden;
@@ -265,4 +266,29 @@ BEGIN
     WHERE idOrdenDetalles = @idOrdenDetalles;
 
     SELECT * FROM OrdenDetalle WHERE idOrdenDetalles = @idOrdenDetalles;
+END;
+
+GO
+
+CREATE OR ALTER PROCEDURE RecharzarOrden
+    @idOrden INT
+AS
+BEGIN
+    UPDATE Orden
+    SET estados_idestados = (
+        SELECT idestados
+        FROM estados
+        WHERE nombre = 'Rechazado'
+    )
+    WHERE idOrden = @idOrden;
+
+    UPDATE Productos
+    SET stock = stock + od.cantidad
+    FROM OrdenDetalles od
+    WHERE (
+        Productos.idProductos = od.Productos_idProductos AND
+        Orden_idOrden = @idOrden
+    );
+
+    SELECT * FROM viewOrden WHERE idOrden = @idOrden;
 END;

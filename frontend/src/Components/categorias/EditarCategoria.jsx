@@ -17,7 +17,7 @@ function EditarCategoria({ categoria, onCancelEdit, onCategoriaEditada }) {
 
     const formSchema = yup.object().shape({
         nombre: yup.string().required('El nombre es requerido'),
-        estados_idestados: yup.number().required('El estado es requerido'),
+        estados_idestados: yup.number().transform(value => isNaN(value) ? undefined : value).required('El estado es requerido'),
     });
 
     const form = useForm({

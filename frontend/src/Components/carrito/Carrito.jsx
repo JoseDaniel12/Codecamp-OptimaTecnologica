@@ -83,7 +83,7 @@ const Carrito = () => {
                                 carrito.map(producto => (
                                     <TableRow key={producto.idProductos} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
-                                            <img height={50} width={60} src={producto.foto ? `data:image/png;base64,${producto.foto}` : 'https://via.placeholder.com/200'}/>
+                                            <img height={50} width={60} src={producto.foto ? `data:image/png;base64,${producto.foto}` : 'https://via.placeholder.com/60x50'}/>
                                             {producto.nombre}
                                         </TableCell>
                                         <TableCell>{producto.precio}</TableCell>
