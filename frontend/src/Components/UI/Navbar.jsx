@@ -20,8 +20,8 @@ import rolesUsuario from '@/types/rolesUsuario';
 
 
 function Navbar() {
-    const { carrito, cantProductos } = useCarrito();
-    const { loginData, setLoginData } = useAuth();
+    const { limpiarCarrito, cantProductos } = useCarrito();
+    const { loginData, logOut } = useAuth();
     const usuario = loginData ? loginData.usuario : null;
     const navigate = useNavigate();
 
@@ -54,7 +54,8 @@ function Navbar() {
     };
 
     const handleCerrarSesion = () => {
-        setLoginData(null);
+        limpiarCarrito();
+        logOut();
         navigate('/login');
     };
 

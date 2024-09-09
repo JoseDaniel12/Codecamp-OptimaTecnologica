@@ -1,5 +1,6 @@
 const sqlServerConn = require('../database/sequelize/sqlServerConnection');
 const _ = require('lodash');
+const rolesUsuario = require('../types/rolesUsuario');
 const tiposEstados = require('../types/estados');
 const ordenesProcedures = require('../database/procedures/ordenes.procedures');
 const productosProcedures = require('../database/procedures/productos.procedures');
@@ -7,12 +8,13 @@ const estadosProcedures = require('../database/procedures/estados.procedures');
 
 const obtenerOrdenes = async (req, res) => {
     try {
-        const { onlyMyOrders='false', idEstado } = req.query;
+        const { idEstado } = req.query;
         let ordenes = await ordenesProcedures.obtenerOrdenes();
-        if (onlyMyOrders === 'true') {
-            const idUsuario = req._usuario.idusuarios;
-            ordenes = ordenes.filter(orden => orden.usuarios_idusuarios === idUsuario);
+    
+        if (req._usuario.rol_idrol === rolesUsuario.CLIENTE) {
+            ordenes = ordenes.filter(orden => orden.usuarios_idusuarios === req._usuario.idusuarios);
         }
+
         if (idEstado) {
             ordenes = ordenes.filter(orden => orden.estados_idestados === parseInt(idEstado));
         }

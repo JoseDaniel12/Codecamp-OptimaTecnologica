@@ -6,6 +6,7 @@ import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import { useNavigate } from 'react-router-dom';
 
 import estados from '@/types/estados';
+import formatFecha from '@/utils/formatters';
 
 function Orden({ orden }) {
     const navigate = useNavigate();
@@ -74,7 +75,7 @@ function Orden({ orden }) {
                             <IconWrapper>
                                 <LocalShipping />
                             </IconWrapper>
-                            <Typography variant="body2">{orden.fecha_entrega || 'Sin Entregar'}</Typography>
+                            <Typography variant="body2">{orden.fecha_entrega ? formatFecha(orden.fecha_entrega) : 'Sin Entregar'}</Typography>
                         </Box>
                     </Grid>
                     <Grid size={12}>

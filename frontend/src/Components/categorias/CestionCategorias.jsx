@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Grid from '@mui/material/Grid2';
-import { Paper, IconButton } from '@mui/material';
+import { Paper, IconButton, Chip } from '@mui/material';
 import { Edit } from "@mui/icons-material";
 import { DataGrid } from '@mui/x-data-grid';
 import CrearCategoria from "@/Components/categorias/CrearCategoria";
@@ -8,6 +8,7 @@ import EditarCategoria from "@/Components/categorias/EditarCategoria";
 
 import { useToast } from "@/hooks/useToast";
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
+import estados from "@/types/estados";
 
 function CestionCategorias() {
     const fetchWithAuth = useFetchWithAuth();
@@ -19,7 +20,17 @@ function CestionCategorias() {
 
     const columns = [
         { field: 'nombre', headerName: 'Nombre', width: 200 },
-        { field: 'estado', headerName: 'Estado' },
+        { 
+            field: 'estado',
+            headerName: 'Estado',
+            renderCell: ({row}) => {
+                if (row.estados_idestados === estados.ACTIVO) {
+                    return <Chip label="Activa" color="success" size='small'/>
+                } else {
+                    return <Chip label="Inactiva" color="error" size='small'/>
+                }
+            }
+         },
         { field: 'cantProductosActivos', headerName: 'Cant. Productos Activos', width: 180 },
         { 
             field: 'acciones',
