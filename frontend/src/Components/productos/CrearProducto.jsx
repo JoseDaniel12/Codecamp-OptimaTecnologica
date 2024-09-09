@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid2'
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import { useToast } from '@/hooks/useToast';
 import { ArrowBack } from '@mui/icons-material';
+import estados from '@/types/estados';
 
 function CrearProducto() {
     const toast = useToast();
@@ -102,7 +103,7 @@ function CrearProducto() {
     };
 
     useEffect(() => {
-        fetchWithAuth('/categorias')
+        fetchWithAuth(`/categorias?idEstado=${estados.ACTIVO}`)
             .then(response => response.json())
             .then(data => {
                 setCategorias(data.categorias);

@@ -27,10 +27,11 @@ const crearCategoria = async (req, res) => {
 
 const obtenerCategorias = async (req, res) => {
     try {
-        const { idestados } = req.query;
+        let { idEstado } = req.query;
+        idEstado = parseInt(idEstado);
         let categorias = await categoriasProcedures.obtenerCategorias();
-        if (idestados) {
-            categorias = categorias.filter(c => c.idestados === idestados);
+        if (idEstado) {
+            categorias = categorias.filter(c => c.estados_idestados === idEstado);
         }
         res.status(200).json({ categorias });
     } catch (error) {

@@ -24,11 +24,11 @@ function Orden({ orden }) {
     const renderEstado = () => {
         switch (orden.estados_idestados) {
             case estados.CONFIRMADO:
-                return <Chip label="Confirmado" color="warning"  icon={<HourglassTopIcon fontSize='small' />}/>;
+                return <Chip label="Confirmada" color="warning"  icon={<HourglassTopIcon fontSize='small' />}/>;
             case estados.ENTREGADO:
-                return <Chip label="Entregado" color="success" icon={<CheckCircle />} />;
+                return <Chip label="Entregada" color="success" icon={<CheckCircle />} />;
             case estados.RECHAZADO:
-                return <Chip label="Rechazado" color="error" icon={<ThumbDown fontSize='small'/>} />;
+                return <Chip label="Rechazada" color="error" icon={<ThumbDown fontSize='small'/>} />;
         }
 
     }

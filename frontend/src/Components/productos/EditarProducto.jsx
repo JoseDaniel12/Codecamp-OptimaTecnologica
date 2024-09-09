@@ -112,7 +112,7 @@ function EditarProducto() {
     };
 
     useEffect(() => {
-        fetchWithAuth('/categorias')
+        fetchWithAuth(`/categorias?idEstado=${tiposEstados.ACTIVO}`)
             .then(response => response.json())
             .then(data => {
                 setCategorias(data.categorias);
