@@ -17,7 +17,7 @@ import { useAuth } from '@/hooks/useAuth';
 import useCarrito from '@/hooks/useCarrito';
 import navbarOptions from './navbarOptions';
 import rolesUsuario from '@/types/rolesUsuario';
-
+import logo from '@/assets/don-arturo.jpg';
 
 function Navbar() {
     const { limpiarCarrito, cantProductos } = useCarrito();
@@ -102,6 +102,15 @@ function Navbar() {
                     </Menu>
                 </Box>
 
+
+                <Box sx={{  display: { xs: 'none', md: 'block' }, mr:2 }} onClick={() => navigate('/')}>
+                    <img
+                        src={logo}
+                        width={50}
+                        style={{ borderRadius: '5px' }}
+                    />
+                </Box>
+
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                     {rutasAutorizadas.map(ruta => (
                         <Button
@@ -118,7 +127,7 @@ function Navbar() {
                     {
                         usuario.rol_idrol === rolesUsuario.CLIENTE && (
                             <Tooltip title='Carrito de Compras'>
-                                <IconButton onClick={() => navigate('/carrito')}>
+                                <IconButton onClick={() => navigate('/carrito')} sx={{mr: 1}}>
                                     <Badge badgeContent={cantProductos} color='error'>
                                         <LocalGroceryStoreIcon fontSize='large'/>
                                     </Badge>

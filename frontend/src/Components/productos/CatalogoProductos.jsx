@@ -13,6 +13,10 @@ import { clean } from 'diacritic';
 import { useAuth } from '@/hooks/useAuth';
 import rolesUsuario from '@/types/rolesUsuario';
 
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
+
 import useDebounce from '@/hooks/useDebounce';
 
 function CatalogoProductos() {
@@ -21,16 +25,43 @@ function CatalogoProductos() {
     } } = useAuth();
     const navigate = useNavigate();
     const fetchWithAuth = useFetchWithAuth();
+
     const [productos, setProductos] = useState([]);
     const [productosFiltrados, setProductosFiltrados] = useState([]);
     const [search, setSearch] = useState('');
     const debounceSearch = useDebounce(search);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPageBackup, setCurrentPageBackup] = useState(1);
+    const [productsPerPage, setProductsPerPage] = useState(8);
+    const lastProductIndex = currentPage * productsPerPage;
+    const firstProductIndex = lastProductIndex - productsPerPage;
+
+    const handleClearSearch = () => {
+        setCurrentPage(currentPageBackup);
+        setProductosFiltrados(productos);
+    }
+
+    const handleSearch = (searchValue) => {
+        if (currentPageBackup !== currentPage) {
+            setCurrentPageBackup(currentPage);
+        }
+        const filteredProducts = productos.filter(p =>
+            clean(p.nombre.toLowerCase()).includes(clean(searchValue.toLowerCase()))
+        );
+        setProductosFiltrados(filteredProducts);
+        setCurrentPage(1);
+    };
+    
     
     useEffect(() => {
-        setProductosFiltrados(productos.filter(p => 
-            clean(p.nombre.toLowerCase()).includes(clean(debounceSearch.toLowerCase()))
-        ));
+        if (debounceSearch === '') {
+            handleClearSearch();
+        } else {
+            handleSearch(debounceSearch);
+        }
     }, [debounceSearch]);
+
 
     useEffect(() => {
         fetchWithAuth('/productos')
@@ -47,6 +78,7 @@ function CatalogoProductos() {
             });
     }, []);
 
+    
     return (
         <Box>
             <Grid container spacing={1} mb={4}>
@@ -92,8 +124,18 @@ function CatalogoProductos() {
 
 
             <Grid container spacing={3} >
+                <Grid size={12} >
+                    <Stack direction='row' justifyContent='center'>
+                        <Pagination 
+                            count={Math.ceil(productosFiltrados.length / productsPerPage)}
+                            page={currentPage}
+                            onChange={(e, page) => setCurrentPage(page)}
+                        />
+                    </Stack>
+                </Grid>
+
                 {
-                    productosFiltrados.map(producto => (
+                    productosFiltrados.slice(firstProductIndex, lastProductIndex).map(producto => (
                         <Grid  key={producto.idProductos} sx={{
                             margin: {
                                 xs: '0 auto',
@@ -103,6 +145,20 @@ function CatalogoProductos() {
                             <Producto producto={producto} />
                         </Grid>
                     ))
+                }
+
+                {
+                    !!productosFiltrados.length && (
+                        <Grid size={12} >
+                            <Stack direction='row' justifyContent='center'>
+                                <Pagination 
+                                    count={Math.ceil(productosFiltrados.length / productsPerPage)}
+                                    page={currentPage}
+                                    onChange={(e, page) => setCurrentPage(page)}
+                                />
+                            </Stack>
+                        </Grid>
+                    )
                 }
             </Grid>
         </Box>

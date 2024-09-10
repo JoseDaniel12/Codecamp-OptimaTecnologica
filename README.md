@@ -7,7 +7,7 @@ José Daniel Alvarado Fajardo |
 
 # Intrucciónes de Ejecución
 ## Base de Datos:
-1. Restaurar la base de datos con el archivo llamado 'db-codecamp-optimatecnologica.bak'
+1. Restaurar la base de datos de Sql Server con el archivo llamado 'db-codecamp-optimatecnologica.bak'
 que se encuentra en la ruta:
 `
 /database
