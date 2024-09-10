@@ -18,12 +18,20 @@ import useCarrito from '@/hooks/useCarrito';
 import navbarOptions from './navbarOptions';
 import rolesUsuario from '@/types/rolesUsuario';
 import logo from '@/assets/don-arturo.jpg';
+import { set } from 'date-fns';
 
 function Navbar() {
     const { limpiarCarrito, cantProductos } = useCarrito();
     const { loginData, logOut } = useAuth();
     const usuario = loginData ? loginData.usuario : null;
     const navigate = useNavigate();
+
+    const [pestania, setPestania] = useState(() => {
+        if (usuario.rol_idrol === rolesUsuario.CLIENTE) {
+            return 'Productos';
+        }
+        return 'Ordenes';
+    });
 
     const rutasAutorizadas = navbarOptions.filter(ruta => {
         if (ruta.roles?.length && ruta.roles.includes(usuario.rol_idrol)) {
@@ -103,7 +111,14 @@ function Navbar() {
                 </Box>
 
 
-                <Box sx={{  display: { xs: 'none', md: 'block' }, mr:2 }} onClick={() => navigate('/')}>
+                <Box sx={{  display: { xs: 'none', md: 'block' }, mr:2 }} onClick={() => {
+                    navigate('/')
+                    if (usuario.rol_idrol === rolesUsuario.CLIENTE) {
+                        setPestania('Productos');
+                    } else {
+                        setPestania('Ordenes');
+                    }
+                }}>
                     <img
                         src={logo}
                         width={50}
@@ -115,8 +130,15 @@ function Navbar() {
                     {rutasAutorizadas.map(ruta => (
                         <Button
                             key={ruta.label}
-                            onClick={() => navigate(ruta.path)}
-                            sx={{ my: 2, color: 'white' }}
+                            onClick={() => {
+                                setPestania(ruta.label);
+                                navigate(ruta.path);
+                            }
+                            }
+                            sx={{ 
+                                my: 2, 
+                                color: ruta.label === pestania ? '#cae2f2' : 'white',
+                            }}
                         >
                             {ruta.label}
                         </Button>
@@ -127,7 +149,7 @@ function Navbar() {
                     {
                         usuario.rol_idrol === rolesUsuario.CLIENTE && (
                             <Tooltip title='Carrito de Compras'>
-                                <IconButton onClick={() => navigate('/carrito')} sx={{mr: 1}}>
+                                <IconButton onClick={() =>{ setPestania('');  navigate('/carrito'); }} sx={{mr: 1}}>
                                     <Badge badgeContent={cantProductos} color='error'>
                                         <LocalGroceryStoreIcon fontSize='large'/>
                                     </Badge>

@@ -87,7 +87,7 @@ function CatalogoProductos() {
                         variant='outlined'
                         size='small'
                         fullWidth
-                        label='Buscar Producto'
+                        label='Buscar Producto por Nombre'
                         sx={{ '& .MuiInputBase-root': {
                             backgroundColor: 'whitesmoke'
                         } }}

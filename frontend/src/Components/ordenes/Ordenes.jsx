@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 import rolesUsuario from '@/types/rolesUsuario';
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
@@ -31,6 +33,11 @@ function Ordenes() {
         }
     });
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const lastItemIndex = currentPage * itemsPerPage;
+    const firstItemIndex = lastItemIndex - itemsPerPage;
+
     const obtenerOrdenes = async () => {
         try {
             const response = await fetchWithAuth('/ordenes');
@@ -38,7 +45,12 @@ function Ordenes() {
             if (response.ok) {
                 const ordenes = data.ordenes;
                 setOrdenes(ordenes);
-                setOrdenesFiltradas(ordenes);
+                if (rol_idrol === rolesUsuario.ADMIN) {
+                    const ordenesFiltradas = ordenes.filter(orden => orden.estados_idestados === estados.CONFIRMADO);
+                    setOrdenesFiltradas(ordenesFiltradas);
+                } else{
+                    setOrdenesFiltradas(ordenes);
+                }
             } else {
                 toast.show({
                     title: 'Error al obtener las ordenes',
@@ -72,7 +84,10 @@ function Ordenes() {
     return (
         <>
             <Box borderBottom={1} borderColor='divider' mb={2}>
-                <Tabs value={estadoOrdenes} onChange={(e, value) => setEstadoOrdenes(value)}>
+                <Tabs value={estadoOrdenes} onChange={(e, value) => {
+                    setEstadoOrdenes(value);
+                    setCurrentPage(1);
+                }}>
                     <Tab label='Confirmadas' value={estados.CONFIRMADO}/>
                     <Tab label='Entregadas' value={estados.ENTREGADO}/>
                     <Tab label='Rechazadas' value={estados.RECHAZADO}/>
@@ -81,12 +96,36 @@ function Ordenes() {
             </Box>
 
             <Grid container columnSpacing={2} rowSpacing={2}>
+                <Grid size={12} >
+                    <Stack direction='row' justifyContent='center'>
+                        <Pagination 
+                            count={Math.ceil(ordenesFiltradas.length / itemsPerPage)}
+                            page={currentPage}
+                            onChange={(e, page) => setCurrentPage(page)}
+                        />
+                    </Stack>
+                </Grid>
+
                 {
-                    ordenesFiltradas.map(orden => (
+                    ordenesFiltradas.slice(firstItemIndex, lastItemIndex).map(orden => (
                         <Grid size={{ sm: 12, md: 6 }} key={orden.idOrden}>
                             <Orden key={orden.idOrdenes} orden={orden} />
                         </Grid>
                     ))
+                }
+
+                {
+                    !!ordenesFiltradas.length && (
+                        <Grid size={12} >
+                            <Stack direction='row' justifyContent='center'>
+                                <Pagination 
+                                    count={Math.ceil(ordenesFiltradas.length / itemsPerPage)}
+                                    page={currentPage}
+                                    onChange={(e, page) => setCurrentPage(page)}
+                                />
+                            </Stack>
+                        </Grid>
+                    )
                 }
             </Grid>
         </>
