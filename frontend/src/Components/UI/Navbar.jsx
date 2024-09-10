@@ -69,7 +69,7 @@ function Navbar() {
 
 
     return (
-        <AppBar position="static" sx={{color: 'blue', marginBottom: 2, position:'sticky', top: 0, zIndex: 1000 }}>
+        <AppBar position="static" sx={{color: 'blue', marginBottom: 2, position:'sticky', top: 0, zIndex: 1000}}>
             <Toolbar>
                 <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
@@ -83,6 +83,7 @@ function Navbar() {
                     </IconButton>
                     <Menu
                         id="menu-appbar"
+                        disableScrollLock 
                         anchorEl={anchorElNav}
                         anchorOrigin={{
                             vertical: 'bottom',
@@ -167,6 +168,7 @@ function Navbar() {
                     </Typography>
                     <Menu
                         id="menu-user"
+                        disableScrollLock
                         anchorEl={anchorElUser}
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}

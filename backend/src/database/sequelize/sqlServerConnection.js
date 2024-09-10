@@ -13,9 +13,12 @@ const sequelize = new Sequelize(
         port: process.env.SQL_SERVER_PORT,
         dialect: 'mssql',
         logging: false,
+        timezone: '-06:00', // Zona horaria de Guatemala (UTC-6)
         dialectOptions: {
             options: {
-                encrypt: false
+                encrypt: false,
+                useUTC: false,
+                dateFirst: 1
             }
         },
     }

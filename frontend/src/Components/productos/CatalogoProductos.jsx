@@ -52,6 +52,19 @@ function CatalogoProductos() {
         setProductosFiltrados(filteredProducts);
         setCurrentPage(1);
     };
+
+
+    const paginator = (
+        <Grid size={12} >
+            <Stack direction='row' justifyContent='center'>
+                <Pagination 
+                    count={Math.ceil(productosFiltrados.length / productsPerPage)}
+                    page={currentPage}
+                    onChange={(e, page) => setCurrentPage(page)}
+                />
+            </Stack>
+        </Grid>
+    );
     
     
     useEffect(() => {
@@ -124,15 +137,7 @@ function CatalogoProductos() {
 
 
             <Grid container spacing={3} >
-                <Grid size={12} >
-                    <Stack direction='row' justifyContent='center'>
-                        <Pagination 
-                            count={Math.ceil(productosFiltrados.length / productsPerPage)}
-                            page={currentPage}
-                            onChange={(e, page) => setCurrentPage(page)}
-                        />
-                    </Stack>
-                </Grid>
+                {paginator}
 
                 {
                     productosFiltrados.slice(firstProductIndex, lastProductIndex).map(producto => (
@@ -147,19 +152,7 @@ function CatalogoProductos() {
                     ))
                 }
 
-                {
-                    !!productosFiltrados.length && (
-                        <Grid size={12} >
-                            <Stack direction='row' justifyContent='center'>
-                                <Pagination 
-                                    count={Math.ceil(productosFiltrados.length / productsPerPage)}
-                                    page={currentPage}
-                                    onChange={(e, page) => setCurrentPage(page)}
-                                />
-                            </Stack>
-                        </Grid>
-                    )
-                }
+                {!!productosFiltrados.length && paginator}
             </Grid>
         </Box>
     );

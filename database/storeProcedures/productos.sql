@@ -4,7 +4,7 @@ GO
 CREATE OR ALTER PROCEDURE ObtenerProductos
 AS
 BEGIN
-    SELECT * FROM viewProducto;
+    SELECT * FROM viewProducto ORDER BY fecha_creacion DESC;
 END;
 
 GO

@@ -83,7 +83,7 @@ function Orden({ orden }) {
                             <IconWrapper>
                                 <AttachMoney />
                             </IconWrapper>
-                            <Typography variant="body2">${orden.total_orden}</Typography>
+                            <Typography variant="body2">{orden.total_orden}</Typography>
                         </Box>
                     </Grid>
                     <Grid size={12}>

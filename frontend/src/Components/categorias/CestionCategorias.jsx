@@ -7,6 +7,7 @@ import CrearCategoria from "@/Components/categorias/CrearCategoria";
 import EditarCategoria from "@/Components/categorias/EditarCategoria";
 
 import { useToast } from "@/hooks/useToast";
+import formatFecha from "@/utils/formatters";
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import estados from "@/types/estados";
 
@@ -19,7 +20,7 @@ function CestionCategorias() {
     
 
     const columns = [
-        { field: 'nombre', headerName: 'Nombre', width: 200 },
+        { field: 'nombre', headerName: 'Nombre' },
         { 
             field: 'estado',
             headerName: 'Estado',
@@ -32,6 +33,12 @@ function CestionCategorias() {
             }
          },
         { field: 'cantProductosActivos', headerName: 'Cant. Productos Activos', width: 180 },
+        { 
+            field: 'fecha_creacion', 
+            headerName: 'Fecha de Creación',
+            width: 140,
+            valueFormatter: ({value}) => formatFecha(value)
+        },
         { 
             field: 'acciones',
             headerName: 'Acciones', 
