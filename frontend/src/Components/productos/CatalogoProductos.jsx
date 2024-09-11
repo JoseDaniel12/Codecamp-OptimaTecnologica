@@ -1,9 +1,9 @@
 import {  useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams} from 'react-router-dom';
 import useFetchWithAuth from '@/hooks/useFetchWithAuth';
 import Producto from '@/Components/productos/Producto';
 import TextField from '@mui/material/TextField';
-import InputAdornment, { inputAdornmentClasses } from '@mui/material/InputAdornment';
+import InputAdornment from '@mui/material/InputAdornment';
 import { Search } from '@mui/icons-material';
 import { Box } from '@mui/system';
 import Button from '@mui/material/Button';
@@ -31,21 +31,21 @@ function CatalogoProductos() {
     const [search, setSearch] = useState('');
     const debounceSearch = useDebounce(search);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [currentPageBackup, setCurrentPageBackup] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [currentPage, setCurrentPage] = useState(() => {
+        const page = searchParams.get('page');
+        console.log(page);
+        return page ? parseInt(page) : 1;
+    });
     const [productsPerPage, setProductsPerPage] = useState(8);
     const lastProductIndex = currentPage * productsPerPage;
     const firstProductIndex = lastProductIndex - productsPerPage;
 
     const handleClearSearch = () => {
-        setCurrentPage(currentPageBackup);
         setProductosFiltrados(productos);
     }
 
     const handleSearch = (searchValue) => {
-        if (currentPageBackup !== currentPage) {
-            setCurrentPageBackup(currentPage);
-        }
         const filteredProducts = productos.filter(p =>
             clean(p.nombre.toLowerCase()).includes(clean(searchValue.toLowerCase()))
         );
@@ -74,6 +74,13 @@ function CatalogoProductos() {
             handleSearch(debounceSearch);
         }
     }, [debounceSearch]);
+
+
+    useEffect(() => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('page', currentPage);
+        setSearchParams(newSearchParams);
+    }, [currentPage]);
 
 
     useEffect(() => {

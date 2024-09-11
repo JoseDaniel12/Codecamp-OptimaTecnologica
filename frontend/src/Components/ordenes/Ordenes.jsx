@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import Orden from '@/Components/ordenes/Orden';
-import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -15,7 +14,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/useToast';
 
 import estados from '@/types/estados';
-import { parse } from 'date-fns';
 
 function Ordenes() {
     const { loginData: {
@@ -39,7 +37,10 @@ function Ordenes() {
         return parseInt(tipoEstado);
     })();
 
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(() => {
+        const page = searchParams.get('page');
+        return page ? parseInt(page) : 1;
+    });
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const lastItemIndex = currentPage * itemsPerPage;
     const firstItemIndex = lastItemIndex - itemsPerPage;
@@ -98,6 +99,13 @@ function Ordenes() {
         }
         setOrdenesFiltradas(ordenes.filter(orden => orden.estados_idestados === tipoEstado));
     }, [tipoEstado, ordenes]);
+
+    
+    useEffect(() => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('page', currentPage);
+        setSearchParams(newSearchParams);
+    }, [currentPage]);
 
 
     useEffect(() => {
