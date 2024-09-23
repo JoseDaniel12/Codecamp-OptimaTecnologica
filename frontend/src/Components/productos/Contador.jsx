@@ -31,7 +31,7 @@ function Contador({
             <Typography variant="body1" sx={{ mx: 2, minWidth: '20px', textAlign: 'center' }}>
                 {count}
             </Typography>
-            <Button onClick={handleIncrement} disabled={count >= producto.stock}>
+            <Button onClick={handleIncrement} disabled={producto.stock ===  0}>
                 <AddIcon />
             </Button>
         </Box>
